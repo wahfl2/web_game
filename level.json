@@ -1,0 +1,612 @@
+{
+  "shapes": [
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -383.2,
+        68.79999
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -95.20001,
+        210.40002
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -1.5999756,
+        -52.799988
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -298.4,
+        -148.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -8.0,
+        188.79999
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        198.40002,
+        41.600006
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -92.0,
+        113.19998
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        140.0,
+        15.600006
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        88.0,
+        -175.6
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -109.599976,
+        -169.19998
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        118.400024,
+        176.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        380.0,
+        161.19998
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        380.0,
+        161.19998
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        373.59998,
+        143.6
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        344.0,
+        75.600006
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        336.80005,
+        52.399994
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        300.80005,
+        -0.3999939
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        267.19995,
+        -25.199982
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        248.0,
+        -29.199982
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        154.40002,
+        -27.600006
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        52.0,
+        2.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -46.400024,
+        35.600006
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -145.59998,
+        12.399994
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -221.59998,
+        -65.19998
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -261.6,
+        -130.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -333.6,
+        -155.6
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -386.4,
+        -97.19998
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -331.2,
+        -4.399994
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -258.4,
+        32.399994
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -164.79999,
+        50.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -4.0,
+        55.600006
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Rectangle",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        42.400024,
+        49.200012
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  ]
+}
