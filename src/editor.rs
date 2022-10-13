@@ -1,7 +1,8 @@
-use std::fs;
+use std::f32::consts::PI;
+use std::{fs, marker::PhantomData};
 use std::time::Instant;
 
-use bevy::{prelude::*, math::Vec3Swizzles, input::{mouse::MouseButtonInput, ButtonState}};
+use bevy::{prelude::*, math::Vec3Swizzles, sprite::MaterialMesh2dBundle, ecs::system::SystemParam};
 use bevy_rapier2d::prelude::*;
 use serde::{Serialize, Deserialize};
 
@@ -11,6 +12,15 @@ use crate::util::{EntityQuery, Cursor};
 pub enum ShapeType {
     Rectangle,
     Oval,
+}
+
+#[derive(SystemParam)]
+pub struct SpawnShapeParam<'w, 's> {
+    meshes: ResMut<'w, Assets<Mesh>>,
+    materials: ResMut<'w, Assets<ColorMaterial>>,
+    
+    #[system_param(ignore)]
+    marker: PhantomData<&'s usize>,
 }
 
 #[derive(Serialize, Deserialize, Component, Clone, Debug)]
@@ -27,25 +37,31 @@ impl EditorShape {
         }
     }
 
-    fn spawn(self, commands: &mut Commands, transform: &Transform) {
-        let collider = match self.shape_type {
-            ShapeType::Rectangle => {
-                Collider::cuboid(self.half_extents.x, self.half_extents.y)
-            },
-            ShapeType::Oval => {
-                Collider::ball(self.half_extents.x)
-            },
+    fn spawn(self, commands: &mut Commands, param: &mut SpawnShapeParam, transform: &Transform) {
+        let (collider, mesh_bundle) = match self.shape_type {
+            ShapeType::Rectangle => {(
+                Collider::cuboid(self.half_extents.x, self.half_extents.y),
+                MaterialMesh2dBundle {
+                    mesh: param.meshes.add(shape::RegularPolygon::new(std::f32::consts::SQRT_2, 4).into()).into(),
+                    material: param.materials.add(ColorMaterial::from(Color::RED)),
+                    transform: transform.clone()
+                        .with_scale(self.half_extents.extend(1.0))
+                        .with_rotation(Quat::from_axis_angle(Vec3::Z, 0.25 * PI)),
+                    ..default()
+                }
+            )},
+            ShapeType::Oval => {(
+                Collider::ball(self.half_extents.x),
+                MaterialMesh2dBundle {
+                    mesh: param.meshes.add(shape::Circle::new(1.0).into()).into(),
+                    material: param.materials.add(ColorMaterial::from(Color::RED)),
+                    transform: transform.clone().with_scale(self.half_extents.extend(1.0)),
+                    ..default()
+                }
+            )},
         };
 
-        commands.spawn_bundle(SpriteBundle {
-            sprite: Sprite {
-                color: Color::rgb(1.0, 0.0, 0.0),
-                custom_size: Some(self.half_extents * 2.0),
-                ..default()
-            },
-            transform: transform.clone(),
-            ..default()
-        })
+        commands.spawn_bundle(mesh_bundle)
         .insert_bundle((
             collider,
             Friction::coefficient(0.7),
@@ -70,9 +86,10 @@ impl SerdeShape {
         }
     }
 
-    fn spawn(self, commands: &mut Commands) {
+    fn spawn(self, commands: &mut Commands, param: &mut SpawnShapeParam) {
         self.shape.spawn(
-            commands, 
+            commands,
+            param, 
             &Transform::from_translation(self.translation.extend(0.0)).with_rotation(self.rotation)
         );
     }
@@ -95,32 +112,27 @@ impl SerdeLevel {
 
 pub fn editor_load(
     mut commands: Commands,
-) {
-    commands.insert_resource(PrevMouseDown(false));
-    commands.insert_resource(PrevSaveDown(false));
 
+    mut spawn_shape_param: SpawnShapeParam,
+) {
     if let Ok(contents) = serde_json::from_str::<SerdeLevel>(
         fs::read_to_string("./level.json").unwrap().as_str()
     ) {
         for shape in contents.shapes {
-            shape.spawn(&mut commands);
+            shape.spawn(&mut commands, &mut spawn_shape_param);
         }
     }
 }
 
-#[derive(Deref, DerefMut)]
-pub struct PrevSaveDown(bool);
-
 pub fn editor_save(
     keyboard_input: Res<Input<KeyCode>>,
-    mut prev_save: ResMut<PrevSaveDown>,
 
     shapes: EntityQuery<EditorShape>,
 
     transform_query: Query<&Transform>,
     editor_shape_query: Query<&EditorShape>,
 ) {
-    if keyboard_input.pressed(KeyCode::P) && !**prev_save {
+    if keyboard_input.just_pressed(KeyCode::P) {
         let start = Instant::now();
         let mut serde_level = SerdeLevel::new();
 
@@ -139,30 +151,23 @@ pub fn editor_save(
 
         info!("Saved in {}ms", Instant::now().duration_since(start).as_millis());
     }
-
-    **prev_save = keyboard_input.pressed(KeyCode::P);
 }
-
-#[derive(Deref, DerefMut)]
-pub struct PrevMouseDown(bool);
 
 pub fn editor(
     mut commands: Commands,
 
     mouse_button_input: Res<Input<MouseButton>>,
+    keyboard_input: Res<Input<KeyCode>>,
     cursor_input: Res<Cursor>,
-    mut prev_mouse: ResMut<PrevMouseDown>,
-    windows: Res<Windows>,
 
     shapes: EntityQuery<EditorShape>,
 
     mut transform_query: Query<&mut Transform>,
     mut editor_shape_query: Query<&mut EditorShape>,
-) {
-    if mouse_button_input.pressed(MouseButton::Left) && !**prev_mouse {
-        let window = windows.get_primary().unwrap();
-        let window_size = Vec2::new(window.width(), window.height());
 
+    mut spawn_shape_param: SpawnShapeParam,
+) {
+    if keyboard_input.just_pressed(KeyCode::R) {
         let shape = EditorShape {
             shape_type: ShapeType::Rectangle,
             half_extents: Vec2::new(20.0, 20.0),
@@ -170,8 +175,21 @@ pub fn editor(
 
         shape.spawn(
             &mut commands, 
-            &Transform::from_translation((cursor_input.pos - (window_size / 2.0)).extend(0.0)))
+            &mut spawn_shape_param,
+            &Transform::from_translation((cursor_input.pos).extend(0.0))
+        );
     }
-    
-    **prev_mouse = mouse_button_input.pressed(MouseButton::Left);
+
+    if keyboard_input.just_pressed(KeyCode::C) {
+        let shape = EditorShape {
+            shape_type: ShapeType::Oval,
+            half_extents: Vec2::new(20.0, 20.0),
+        };
+
+        shape.spawn(
+            &mut commands, 
+            &mut spawn_shape_param,
+            &Transform::from_translation((cursor_input.pos).extend(0.0))
+        );
+    }
 }
