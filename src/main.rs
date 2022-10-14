@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
-use editor::{EditorPlugin, editor_load};
+use editor::editor::EditorPlugin;
 use level::{level_startup, LevelEntity};
 use util::{Cursor, cursor_pos};
 
