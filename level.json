@@ -2,15 +2,34 @@
   "shapes": [
     {
       "shape": {
-        "shape_type": "Rectangle",
+        "shape_type": "Oval",
         "half_extents": [
           20.0,
           20.0
         ]
       },
       "translation": [
-        -383.2,
-        68.79999
+        -158.39996,
+        -268.8
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Oval",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -88.0,
+        -120.00001
       ],
       "rotation": [
         0.0,
@@ -28,8 +47,8 @@
         ]
       },
       "translation": [
-        -95.20001,
-        210.40002
+        -425.6,
+        78.399994
       ],
       "rotation": [
         0.0,
@@ -47,8 +66,27 @@
         ]
       },
       "translation": [
-        -1.5999756,
-        -52.799988
+        -791.19995,
+        -167.20004
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Oval",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -487.19998,
+        -222.4
       ],
       "rotation": [
         0.0,
@@ -66,8 +104,8 @@
         ]
       },
       "translation": [
-        -298.4,
-        -148.0
+        23.200012,
+        179.20001
       ],
       "rotation": [
         0.0,
@@ -85,8 +123,8 @@
         ]
       },
       "translation": [
-        -8.0,
-        188.79999
+        211.20003,
+        84.79999
       ],
       "rotation": [
         0.0,
@@ -104,8 +142,8 @@
         ]
       },
       "translation": [
-        198.40002,
-        41.600006
+        -253.6,
+        174.40002
       ],
       "rotation": [
         0.0,
@@ -123,8 +161,8 @@
         ]
       },
       "translation": [
-        -92.0,
-        113.19998
+        -655.19995,
+        -244.0
       ],
       "rotation": [
         0.0,
@@ -142,8 +180,8 @@
         ]
       },
       "translation": [
-        140.0,
-        15.600006
+        -129.59998,
+        -132.0
       ],
       "rotation": [
         0.0,
@@ -161,8 +199,8 @@
         ]
       },
       "translation": [
-        88.0,
-        -175.6
+        -655.19995,
+        -7.200012
       ],
       "rotation": [
         0.0,
@@ -180,8 +218,8 @@
         ]
       },
       "translation": [
-        -109.599976,
-        -169.19998
+        -491.99997,
+        -466.4
       ],
       "rotation": [
         0.0,
@@ -199,8 +237,27 @@
         ]
       },
       "translation": [
-        118.400024,
-        176.0
+        -332.8,
+        -255.20001
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Oval",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -369.59998,
+        -27.200014
       ],
       "rotation": [
         0.0,
@@ -218,8 +275,8 @@
         ]
       },
       "translation": [
-        380.0,
-        161.19998
+        -296.0,
+        -116.799995
       ],
       "rotation": [
         0.0,
@@ -237,8 +294,46 @@
         ]
       },
       "translation": [
-        380.0,
-        161.19998
+        216.00002,
+        -48.799988
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Oval",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -517.6,
+        -28.80002
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Oval",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -539.19995,
+        -91.20001
       ],
       "rotation": [
         0.0,
@@ -256,8 +351,65 @@
         ]
       },
       "translation": [
-        373.59998,
-        143.6
+        -205.6,
+        121.600006
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Oval",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -385.6,
+        -532.80005
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Oval",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -736.0,
+        -395.20004
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Oval",
+        "half_extents": [
+          20.0,
+          20.0
+        ]
+      },
+      "translation": [
+        -79.19998,
+        -463.20004
       ],
       "rotation": [
         0.0,
@@ -275,8 +427,8 @@
         ]
       },
       "translation": [
-        344.0,
-        75.600006
+        -43.200012,
+        102.399994
       ],
       "rotation": [
         0.0,
@@ -294,312 +446,8 @@
         ]
       },
       "translation": [
-        336.80005,
-        52.399994
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
-      },
-      "translation": [
-        300.80005,
-        -0.3999939
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
-      },
-      "translation": [
-        267.19995,
-        -25.199982
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
-      },
-      "translation": [
-        248.0,
-        -29.199982
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
-      },
-      "translation": [
-        154.40002,
-        -27.600006
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
-      },
-      "translation": [
-        52.0,
-        2.0
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
-      },
-      "translation": [
-        -46.400024,
-        35.600006
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
-      },
-      "translation": [
-        -145.59998,
-        12.399994
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
-      },
-      "translation": [
-        -221.59998,
-        -65.19998
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
-      },
-      "translation": [
-        -261.6,
-        -130.0
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
-      },
-      "translation": [
-        -333.6,
-        -155.6
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
-      },
-      "translation": [
-        -386.4,
-        -97.19998
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
-      },
-      "translation": [
-        -331.2,
-        -4.399994
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
-      },
-      "translation": [
-        -258.4,
-        32.399994
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
-      },
-      "translation": [
-        -164.79999,
-        50.0
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
-      },
-      "translation": [
-        -4.0,
-        55.600006
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
-      },
-      "translation": [
-        42.400024,
-        49.200012
+        -41.599976,
+        85.600006
       ],
       "rotation": [
         0.0,

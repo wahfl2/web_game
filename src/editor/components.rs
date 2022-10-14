@@ -12,8 +12,15 @@ pub enum ShapeType {
     Oval,
 }
 
+#[derive(Component)]
 pub struct EditorSelectBox {
     pub start: Vec2
+}
+
+impl Default for EditorSelectBox {
+    fn default() -> Self {
+        Self { start: Vec2::ZERO }
+    }
 }
 
 #[derive(Serialize, Deserialize, Component, Clone, Debug)]

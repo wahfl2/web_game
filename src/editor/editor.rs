@@ -1,6 +1,7 @@
 use std::marker::PhantomData;
 
 use bevy::{prelude::*, ecs::system::SystemParam};
+use bevy_rapier2d::prelude::{Collider, Sensor};
 
 use crate::level::Level;
 use crate::util::{EntityQuery, Cursor};
@@ -31,6 +32,20 @@ pub struct SpawnShapeParam<'w, 's> {
     marker: PhantomData<&'s usize>,
 }
 
+pub fn editor_startup(
+    mut commands: Commands,
+) {
+    commands.spawn_bundle(TransformBundle::default())
+        .insert_bundle((
+            Collider::cuboid(0.5, 0.5),
+            EditorSelectBox::default()
+        )).insert(Sensor)
+        .insert_bundle(VisibilityBundle {
+            visibility: Visibility { is_visible: false },
+            ..default()
+        });
+}
+
 pub fn editor(
     mut commands: Commands,
 
@@ -40,6 +55,7 @@ pub fn editor(
 
     camera: EntityQuery<Camera>,
     shapes: EntityQuery<EditorShape>,
+    mut select_box: Query<(Entity, &mut EditorSelectBox)>,
 
     mut transform_query: Query<&mut Transform>,
     mut editor_shape_query: Query<&mut EditorShape>,
@@ -77,5 +93,11 @@ pub fn editor(
         transform.translation += cursor.delta().extend(0.0);
     }
 
+    if mouse_button_input.just_pressed(MouseButton::Left) {
+        let (entity, mut select_box) = select_box.single_mut();
+        select_box.start = cursor.world_pos;
 
+        let mut transform = transform_query.get_mut(entity).unwrap();
+        transform.scale = Vec3::new(0.0, 0.0, 1.0);
+    }
 }
