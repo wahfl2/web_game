@@ -60,3 +60,14 @@ pub fn cursor_pos(
         cursor.moved = false;
     }
 }
+
+pub fn update_color_material(
+    handle: &Handle<ColorMaterial>,
+    materials: &mut ResMut<Assets<ColorMaterial>>,
+    color: Color,
+) {
+    let material_op = materials.get_mut(handle);
+    if let Some(material) = material_op {
+        material.color = color;
+    }
+}
