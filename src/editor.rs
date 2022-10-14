@@ -6,7 +6,21 @@ use bevy::{prelude::*, math::Vec3Swizzles, sprite::MaterialMesh2dBundle, ecs::sy
 use bevy_rapier2d::prelude::*;
 use serde::{Serialize, Deserialize};
 
+use crate::METERS_PER_PIXEL;
+use crate::level::{LevelEntity, Level};
 use crate::util::{EntityQuery, Cursor};
+
+pub struct EditorPlugin;
+
+impl Plugin for EditorPlugin {
+    fn build(&self, app: &mut App) {
+        app.insert_resource(SaveLoaded(false))
+            .add_system(editor_load)
+            .add_system(hover_shapes)
+            .add_system(editor)
+            .add_system(editor_save);
+    }
+}
 
 #[derive(Serialize, Deserialize, Component, Clone, Debug)]
 pub enum ShapeType {
@@ -18,6 +32,7 @@ pub enum ShapeType {
 pub struct SpawnShapeParam<'w, 's> {
     meshes: ResMut<'w, Assets<Mesh>>,
     materials: ResMut<'w, Assets<ColorMaterial>>,
+    level: EntityQuery<'w, 's, Level>,
     
     #[system_param(ignore)]
     marker: PhantomData<&'s usize>,
@@ -38,20 +53,25 @@ impl EditorShape {
     }
 
     fn spawn(self, commands: &mut Commands, param: &mut SpawnShapeParam, transform: &Transform) {
+        let coll_half_extents = self.half_extents * METERS_PER_PIXEL * 5.0; // ????
+
         let (collider, mesh_bundle) = match self.shape_type {
             ShapeType::Rectangle => {(
-                Collider::cuboid(self.half_extents.x, self.half_extents.y),
+                Collider::cuboid(coll_half_extents.x, coll_half_extents.y),
                 MaterialMesh2dBundle {
-                    mesh: param.meshes.add(shape::RegularPolygon::new(std::f32::consts::SQRT_2, 4).into()).into(),
+                    mesh: param.meshes.add(
+                        shape::Box::new(2.0, 2.0, 0.0).into()
+                    ).into(),
+
                     material: param.materials.add(ColorMaterial::from(Color::RED)),
+
                     transform: transform.clone()
-                        .with_scale(self.half_extents.extend(1.0))
-                        .with_rotation(Quat::from_axis_angle(Vec3::Z, 0.25 * PI)),
+                        .with_scale(self.half_extents.extend(1.0)) ,
                     ..default()
                 }
             )},
             ShapeType::Oval => {(
-                Collider::ball(self.half_extents.x),
+                Collider::ball(coll_half_extents.x),
                 MaterialMesh2dBundle {
                     mesh: param.meshes.add(shape::Circle::new(1.0).into()).into(),
                     material: param.materials.add(ColorMaterial::from(Color::RED)),
@@ -61,12 +81,15 @@ impl EditorShape {
             )},
         };
 
-        commands.spawn_bundle(mesh_bundle)
-        .insert_bundle((
-            collider,
-            Friction::coefficient(0.7),
-            self,
-        ));
+        let child = commands.spawn_bundle(mesh_bundle)
+            .insert_bundle((
+                collider,
+                RigidBody::Fixed,
+                Friction::coefficient(0.7),
+                self,
+            )).id();
+
+        commands.entity(param.level.single()).add_child(child);
     }
 }
 
@@ -110,17 +133,25 @@ impl SerdeLevel {
     }
 }
 
+pub struct SaveLoaded(pub bool);
+
 pub fn editor_load(
     mut commands: Commands,
 
+    mut loaded: ResMut<SaveLoaded>,
+
     mut spawn_shape_param: SpawnShapeParam,
 ) {
+    if loaded.0 { return }
+    if spawn_shape_param.level.get_single().is_err() { return }
+
     if let Ok(contents) = serde_json::from_str::<SerdeLevel>(
         fs::read_to_string("./level.json").unwrap().as_str()
     ) {
         for shape in contents.shapes {
             shape.spawn(&mut commands, &mut spawn_shape_param);
         }
+        loaded.0 = true;
     }
 }
 
@@ -158,8 +189,9 @@ pub fn editor(
 
     mouse_button_input: Res<Input<MouseButton>>,
     keyboard_input: Res<Input<KeyCode>>,
-    cursor_input: Res<Cursor>,
+    cursor: Res<Cursor>,
 
+    camera: EntityQuery<Camera>,
     shapes: EntityQuery<EditorShape>,
 
     mut transform_query: Query<&mut Transform>,
@@ -176,7 +208,7 @@ pub fn editor(
         shape.spawn(
             &mut commands, 
             &mut spawn_shape_param,
-            &Transform::from_translation((cursor_input.pos).extend(0.0))
+            &Transform::from_translation((cursor.world_pos).extend(0.0))
         );
     }
 
@@ -189,7 +221,49 @@ pub fn editor(
         shape.spawn(
             &mut commands, 
             &mut spawn_shape_param,
-            &Transform::from_translation((cursor_input.pos).extend(0.0))
+            &Transform::from_translation((cursor.world_pos).extend(0.0))
         );
+    }
+
+    if mouse_button_input.pressed(MouseButton::Left) && !mouse_button_input.just_pressed(MouseButton::Left) {
+        let mut transform = transform_query.get_mut(camera.single()).unwrap();
+        transform.translation += cursor.delta().extend(0.0);
+    }
+}
+
+#[derive(Component)]
+pub struct Selected;
+
+#[derive(Component)]
+pub struct Hovered;
+
+pub fn hover_shapes(
+    mut commands: Commands,
+
+    cursor: Res<Cursor>,
+    rapier_context: Res<RapierContext>,
+    mut materials: ResMut<Assets<ColorMaterial>>,
+
+    material_query: Query<&Handle<ColorMaterial>>,
+) {
+    if cursor.moved {
+        let mut last = None;
+        rapier_context.intersections_with_point(
+            cursor.world_pos, 
+            QueryFilter::default(), 
+            |entity| {
+                last = Some(entity);
+                true
+           }
+        );
+
+        if let Some(hovered) = last {
+            info!("hovering");
+            commands.entity(hovered).insert(Hovered);
+            let mat_handle = material_query.get(hovered).unwrap();
+            let material = materials.get_mut(mat_handle).unwrap();
+
+            material.color = Color::YELLOW;
+        }
     }
 }

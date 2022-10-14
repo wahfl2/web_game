@@ -1,20 +1,26 @@
 use bevy::prelude::*;
+use bevy_rapier2d::prelude::*;
+use editor::{EditorPlugin, editor_load};
+use level::{level_startup, LevelEntity};
 use util::{Cursor, cursor_pos};
-use crate::editor::*;
 
 pub mod level;
 pub mod editor;
 pub mod util;
 
+pub const METERS_PER_PIXEL: f32 = 1.0 / 100.0;
+
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
+        .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(1.0 / METERS_PER_PIXEL))
+        .add_plugin(RapierDebugRenderPlugin::default())
+        .add_plugin(EditorPlugin)
         .add_startup_system(setup)
-        .add_startup_system(editor_load)
-        .insert_resource(Cursor { pos: Vec2::ZERO })
-        .add_system(editor)
-        .add_system(editor_save)
-        .add_system(cursor_pos)
+        .add_startup_system(level_startup)
+        .insert_resource(LevelEntity { entity: None })
+        .insert_resource(Cursor::default())
+        .add_system_to_stage(CoreStage::PreUpdate, cursor_pos)
         .run();
 }
 
