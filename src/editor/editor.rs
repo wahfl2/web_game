@@ -96,7 +96,7 @@ pub fn editor(
         );
     }
 
-    if mouse_button_input.just_pressed(MouseButton::Left) {
+    if mouse_button_input.just_pressed(MouseButton::Right) {
         if !keyboard_input.pressed(KeyCode::LShift) {
             for entity in selected.iter() {
                 commands.entity(entity).remove::<Selected>();
@@ -109,7 +109,7 @@ pub fn editor(
         let mut transform = transform_query.get_mut(entity).unwrap();
         transform.scale = Vec3::new(0.0, 0.0, 1.0);
 
-    } else if mouse_button_input.pressed(MouseButton::Left) {
+    } else if mouse_button_input.pressed(MouseButton::Right) {
         let (entity, select_box) = select_box.single();
         let mut transform = transform_query.get_mut(entity).unwrap();
 
@@ -117,7 +117,7 @@ pub fn editor(
         transform.scale = (select_box.start - cursor.world_pos).abs().extend(1.0);
     }
 
-    if mouse_button_input.just_released(MouseButton::Left) {
+    if mouse_button_input.just_released(MouseButton::Right) {
         let (select_box_entity, box_select) = select_box.single();
         let select_box_size = (box_select.start - cursor.world_pos).abs();
 

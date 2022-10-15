@@ -46,6 +46,8 @@ pub fn cursor_pos(
     cursor.prev_pos = cursor.pos;
     cursor.prev_world_pos = cursor.world_pos;
 
+    let scale = projection.single().scale;
+
     if let Some(cursor_moved) = cursor_input.iter().last() {        
         let window = windows.get_primary().unwrap();
         let window_size = Vec2::new(window.width(), window.height());
@@ -53,17 +55,16 @@ pub fn cursor_pos(
         let pos = cursor_moved.position - (window_size / 2.0);
 
         cursor.pos = pos;
-
-        let scale = projection.single().scale;
+        
         let cam_translation = c_transform_query.single().translation;
-
         cursor.world_pos = (pos * scale) + cam_translation.xy();
-        cursor.delta = (cursor.prev_pos - cursor.pos) * scale;
 
         cursor.moved = true;
     } else {
         cursor.moved = false;
     }
+
+    cursor.delta = (cursor.prev_pos - cursor.pos) * scale;
 }
 
 pub fn update_color_material(
