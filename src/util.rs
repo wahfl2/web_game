@@ -11,6 +11,8 @@ pub struct Cursor {
     pub world_pos: Vec2,
     pub prev_world_pos: Vec2,
 
+    pub delta: Vec2,
+
     pub moved: bool,
 }
 
@@ -21,6 +23,7 @@ impl Default for Cursor {
             prev_pos: Vec2::ZERO,
             world_pos: Vec2::ZERO,
             prev_world_pos: Vec2::ZERO,
+            delta: Vec2::ZERO,
             moved: false 
         }
     }
@@ -30,14 +33,11 @@ impl Cursor {
     pub fn new() -> Self {
         Self::default()
     }
-
-    pub fn delta(&self) -> Vec2 {
-        self.prev_pos - self.pos
-    }
 }
 
 pub fn cursor_pos(
-    offset: Query<&Transform, With<Camera>>,
+    projection: Query<&OrthographicProjection>,
+    c_transform_query: Query<&Transform, With<Camera>>,
 
     windows: Res<Windows>,
     mut cursor: ResMut<Cursor>,
@@ -53,7 +53,12 @@ pub fn cursor_pos(
         let pos = cursor_moved.position - (window_size / 2.0);
 
         cursor.pos = pos;
-        cursor.world_pos = pos + offset.single().translation.xy();
+
+        let scale = projection.single().scale;
+        let cam_translation = c_transform_query.single().translation;
+
+        cursor.world_pos = (pos * scale) + cam_translation.xy();
+        cursor.delta = (cursor.prev_pos - cursor.pos) * scale;
 
         cursor.moved = true;
     } else {
