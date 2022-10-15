@@ -12,6 +12,7 @@ pub struct SerdeShape {
     shape: EditorShape,
     translation: Vec2,
     rotation: Quat,
+    scale: Vec2,
 }
 
 impl SerdeShape {
@@ -20,6 +21,7 @@ impl SerdeShape {
             shape,
             translation: transform.translation.xy(),
             rotation: transform.rotation,
+            scale: transform.scale.xy(),
         }
     }
 
@@ -27,7 +29,9 @@ impl SerdeShape {
         self.shape.spawn(
             commands,
             param, 
-            &Transform::from_translation(self.translation.extend(0.0)).with_rotation(self.rotation)
+            &Transform::from_translation(self.translation.extend(0.0))
+                .with_rotation(self.rotation)
+                .with_scale(self.scale.extend(1.0))
         );
     }
 }

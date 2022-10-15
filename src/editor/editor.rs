@@ -4,11 +4,13 @@ use bevy::{prelude::*, ecs::system::SystemParam};
 use bevy_rapier2d::prelude::{Collider, Sensor, RapierContext};
 
 use crate::level::Level;
-use crate::util::{EntityQuery, Cursor, update_color_material};
+use crate::util::{EntityQuery, Cursor, update_color_material, cursor_pos};
 
+use super::camera::camera_movement;
 use super::color_handler::color_handler;
 use super::components::*;
 use super::hover::hover_shapes;
+use super::selection::selection_manipulation;
 use super::serde::*;
 
 pub struct EditorPlugin;
@@ -17,6 +19,9 @@ impl Plugin for EditorPlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(SaveLoaded(false))
             .add_startup_system(editor_startup)
+            .add_system_to_stage(CoreStage::PreUpdate, camera_movement.after(cursor_pos))
+            // Definitely off by one, but who cares
+            .add_system(selection_manipulation)
             .add_system(editor_load)
             .add_system(hover_shapes)
             .add_system(editor.after(hover_shapes))
@@ -56,6 +61,7 @@ pub fn editor(
     camera: EntityQuery<Camera>,
     shapes: EntityQuery<EditorShape>,
     selected: EntityQuery<Selected>,
+    hovered: EntityQuery<Hovered>,
     mut select_box: Query<(Entity, &mut EditorSelectBox)>,
 
     material_query: Query<&Handle<ColorMaterial>>,
@@ -67,35 +73,36 @@ pub fn editor(
     if keyboard_input.just_pressed(KeyCode::R) {
         let shape = EditorShape {
             shape_type: ShapeType::Rectangle,
-            half_extents: Vec2::new(20.0, 20.0),
         };
 
         shape.spawn(
             &mut commands, 
             &mut spawn_shape_param,
             &Transform::from_translation((cursor.world_pos).extend(0.0))
+                .with_scale(Vec3::new(20.0, 20.0, 1.0))
         );
     }
 
     if keyboard_input.just_pressed(KeyCode::C) {
         let shape = EditorShape {
             shape_type: ShapeType::Oval,
-            half_extents: Vec2::new(20.0, 20.0),
         };
 
         shape.spawn(
             &mut commands, 
             &mut spawn_shape_param,
             &Transform::from_translation((cursor.world_pos).extend(0.0))
+                .with_scale(Vec3::new(20.0, 20.0, 1.0))
         );
     }
 
-    if mouse_button_input.pressed(MouseButton::Middle) && !mouse_button_input.just_pressed(MouseButton::Middle) {
-        let mut transform = transform_query.get_mut(camera.single()).unwrap();
-        transform.translation += cursor.delta().extend(0.0);
-    }
-
     if mouse_button_input.just_pressed(MouseButton::Left) {
+        if !keyboard_input.pressed(KeyCode::LShift) {
+            for entity in selected.iter() {
+                commands.entity(entity).remove::<Selected>();
+            }
+        }
+
         let (entity, mut select_box) = select_box.single_mut();
         select_box.start = cursor.world_pos;
 
@@ -114,9 +121,11 @@ pub fn editor(
         let (select_box_entity, box_select) = select_box.single();
         let select_box_size = (box_select.start - cursor.world_pos).abs();
 
-        if select_box_size.x + select_box_size.y < 10.0 {
-            for entity in selected.iter() {
-                commands.entity(entity).remove::<Selected>();
+        if select_box_size.x + select_box_size.y < 20.0 {
+            if !hovered.is_empty() {
+                for entity in hovered.iter() {
+                    commands.entity(entity).insert(Selected);
+                }
             }
         } else {
             for (e1, e2, _) in rapier_context.intersections_with(select_box_entity) {
