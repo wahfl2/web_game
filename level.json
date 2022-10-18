@@ -2,458 +2,344 @@
   "shapes": [
     {
       "shape": {
-        "shape_type": "Oval",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
+        "shape_type": "Rectangle"
       },
       "translation": [
-        -158.39996,
-        -268.8
+        -136.0,
+        181.6
       ],
       "rotation": [
         0.0,
         0.0,
         0.0,
         1.0
+      ],
+      "scale": [
+        20.0,
+        20.0
       ]
     },
     {
       "shape": {
-        "shape_type": "Oval",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
+        "shape_type": "Oval"
       },
       "translation": [
-        -88.0,
-        -120.00001
+        1581.2404,
+        -546.98444
       ],
       "rotation": [
         0.0,
         0.0,
-        0.0,
-        1.0
+        -0.47942564,
+        0.8775825
+      ],
+      "scale": [
+        48.0,
+        108.0
       ]
     },
     {
       "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
+        "shape_type": "Oval"
       },
       "translation": [
-        -425.6,
-        78.399994
+        1389.58,
+        -1155.3165
       ],
       "rotation": [
         0.0,
         0.0,
         0.0,
         1.0
+      ],
+      "scale": [
+        88.0,
+        88.0
       ]
     },
     {
       "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
+        "shape_type": "Rectangle"
       },
       "translation": [
-        -791.19995,
-        -167.20004
+        -743.1462,
+        -88.21202
       ],
       "rotation": [
         0.0,
         0.0,
         0.0,
         1.0
+      ],
+      "scale": [
+        20.0,
+        20.0
       ]
     },
     {
       "shape": {
-        "shape_type": "Oval",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
+        "shape_type": "Oval"
       },
       "translation": [
-        -487.19998,
-        -222.4
+        -672.80756,
+        -1186.6456
       ],
       "rotation": [
         0.0,
         0.0,
         0.0,
         1.0
+      ],
+      "scale": [
+        134.0,
+        134.0
       ]
     },
     {
       "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
+        "shape_type": "Rectangle"
       },
       "translation": [
-        23.200012,
-        179.20001
+        -21.599976,
+        201.59998
       ],
       "rotation": [
         0.0,
         0.0,
         0.0,
         1.0
+      ],
+      "scale": [
+        20.0,
+        20.0
       ]
     },
     {
       "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
+        "shape_type": "Rectangle"
       },
       "translation": [
-        211.20003,
-        84.79999
+        813.0861,
+        -561.8344
       ],
       "rotation": [
         0.0,
         0.0,
         0.0,
         1.0
+      ],
+      "scale": [
+        53.0,
+        52.0
       ]
     },
     {
       "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
+        "shape_type": "Rectangle"
       },
       "translation": [
-        -253.6,
-        174.40002
+        -726.1244,
+        -13.640411
       ],
       "rotation": [
         0.0,
         0.0,
         0.0,
         1.0
+      ],
+      "scale": [
+        20.0,
+        20.0
       ]
     },
     {
       "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
+        "shape_type": "Rectangle"
       },
       "translation": [
-        -655.19995,
-        -244.0
+        -898.3685,
+        -167.24171
       ],
       "rotation": [
         0.0,
         0.0,
         0.0,
         1.0
+      ],
+      "scale": [
+        20.0,
+        20.0
       ]
     },
     {
       "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
+        "shape_type": "Rectangle"
       },
       "translation": [
-        -129.59998,
-        -132.0
+        -1169.5012,
+        -165.6206
       ],
       "rotation": [
         0.0,
         0.0,
         0.0,
         1.0
+      ],
+      "scale": [
+        20.0,
+        20.0
       ]
     },
     {
       "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
+        "shape_type": "Rectangle"
       },
       "translation": [
-        -655.19995,
-        -7.200012
+        -1017.52106,
+        -26.20414
       ],
       "rotation": [
         0.0,
         0.0,
         0.0,
         1.0
+      ],
+      "scale": [
+        20.0,
+        20.0
       ]
     },
     {
       "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
+        "shape_type": "Rectangle"
       },
       "translation": [
-        -491.99997,
-        -466.4
+        435.89044,
+        -593.062
       ],
       "rotation": [
         0.0,
         0.0,
         0.0,
         1.0
+      ],
+      "scale": [
+        55.0,
+        56.0
       ]
     },
     {
       "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
+        "shape_type": "Rectangle"
       },
       "translation": [
-        -332.8,
-        -255.20001
+        620.94836,
+        -584.3589
       ],
       "rotation": [
         0.0,
         0.0,
         0.0,
         1.0
+      ],
+      "scale": [
+        54.0,
+        53.0
       ]
     },
     {
       "shape": {
-        "shape_type": "Oval",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
+        "shape_type": "Rectangle"
       },
       "translation": [
-        -369.59998,
-        -27.200014
+        1265.7848,
+        -218.66226
       ],
       "rotation": [
         0.0,
         0.0,
         0.0,
         1.0
+      ],
+      "scale": [
+        67.0,
+        71.0
       ]
     },
     {
       "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
+        "shape_type": "Rectangle"
       },
       "translation": [
-        -296.0,
-        -116.799995
+        502.83398,
+        354.56873
       ],
       "rotation": [
         0.0,
         0.0,
         0.0,
         1.0
+      ],
+      "scale": [
+        53.0,
+        53.0
       ]
     },
     {
       "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
+        "shape_type": "Rectangle"
       },
       "translation": [
-        216.00002,
-        -48.799988
+        -15.414375,
+        -55.95465
       ],
       "rotation": [
         0.0,
         0.0,
-        0.0,
-        1.0
+        -0.88819015,
+        0.4594761
+      ],
+      "scale": [
+        20.0,
+        508.29993
       ]
     },
     {
       "shape": {
-        "shape_type": "Oval",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
+        "shape_type": "Oval"
       },
       "translation": [
-        -517.6,
-        -28.80002
+        261.44965,
+        -363.07983
       ],
       "rotation": [
         0.0,
         0.0,
         0.0,
         1.0
+      ],
+      "scale": [
+        156.0,
+        155.0
       ]
     },
     {
       "shape": {
-        "shape_type": "Oval",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
+        "shape_type": "Rectangle"
       },
       "translation": [
-        -539.19995,
-        -91.20001
+        379.21594,
+        -1225.1611
       ],
       "rotation": [
         0.0,
         0.0,
         0.0,
         1.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
-      },
-      "translation": [
-        -205.6,
-        121.600006
       ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Oval",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
-      },
-      "translation": [
-        -385.6,
-        -532.80005
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Oval",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
-      },
-      "translation": [
-        -736.0,
-        -395.20004
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Oval",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
-      },
-      "translation": [
-        -79.19998,
-        -463.20004
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
-      },
-      "translation": [
-        -43.200012,
-        102.399994
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
-        "half_extents": [
-          20.0,
-          20.0
-        ]
-      },
-      "translation": [
-        -41.599976,
-        85.600006
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
+      "scale": [
+        1040.0,
+        66.0
       ]
     }
   ]

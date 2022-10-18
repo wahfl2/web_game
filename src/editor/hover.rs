@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
+use bevy_rapier2d::rapier::geometry::Group;
 
 use crate::util::{Cursor, EntityQuery, update_color_material};
 
@@ -22,7 +23,9 @@ pub fn hover_shapes(
         let mut last = None;
         rapier_context.intersections_with_point(
             cursor.world_pos, 
-            QueryFilter::default().exclude_sensors(), 
+            QueryFilter::default().groups(
+                InteractionGroups::new(Group::ALL, Group::from_bits_truncate(0b1))
+            ), 
             |entity| {
                 last = Some(entity);
                 true

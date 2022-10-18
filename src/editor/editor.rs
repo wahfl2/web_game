@@ -3,7 +3,8 @@ use std::marker::PhantomData;
 use bevy::{prelude::*, ecs::system::SystemParam};
 use bevy_rapier2d::prelude::{Collider, Sensor, RapierContext};
 
-use crate::level::Level;
+use crate::game::level::Level;
+use crate::game::player::spawn::player_spawn;
 use crate::util::{EntityQuery, Cursor, update_color_material, cursor_pos};
 
 use super::camera::camera_movement;
@@ -17,8 +18,8 @@ pub struct EditorPlugin;
 
 impl Plugin for EditorPlugin {
     fn build(&self, app: &mut App) {
-        app.insert_resource(SaveLoaded(false))
-            .add_startup_system(editor_startup)
+        app.add_startup_system(editor_startup)
+            .add_startup_system(player_spawn)
             .add_system_to_stage(CoreStage::PreUpdate, camera_movement.after(cursor_pos))
             // Definitely off by one, but who cares
             .add_system(selection_manipulation)

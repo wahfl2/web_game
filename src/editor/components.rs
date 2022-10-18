@@ -34,6 +34,12 @@ pub struct Selected;
 #[derive(Component)]
 pub struct Hovered;
 
+#[derive(Component)]
+pub struct Selectable;
+
+#[derive(Component)]
+pub struct Hoverable;
+
 impl EditorShape {
     pub fn new(shape_type: ShapeType, dimensions: Vec2) -> Self {
         Self {
@@ -71,7 +77,12 @@ impl EditorShape {
             .insert_bundle((
                 collider,
                 RigidBody::Fixed,
-                Friction::coefficient(0.7),
+                Friction::coefficient(0.1),
+                Restitution::coefficient(0.4),
+                CollisionGroups::new(
+                    Group::from_bits_truncate(0b1), 
+                    Group::from_bits_truncate(0b11111110)
+                ),
                 self,
             )).id();
 

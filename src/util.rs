@@ -1,6 +1,8 @@
+use std::f32::consts::PI;
+
 use bevy::{prelude::*, math::Vec3Swizzles};
 
-use crate::level::Level;
+pub const DEGREES: f32 = 180.0 / PI;
 
 pub type EntityQuery<'w, 's, T> = Query<'w, 's, Entity, With<T>>;
 

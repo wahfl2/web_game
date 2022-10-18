@@ -75,6 +75,34 @@ pub fn selection_manipulation(
         }
     }
 
+    if keyboard.just_pressed(KeyCode::W) {
+        for entity in selected.iter() {
+            let mut transform = transform_query.get_mut(entity).unwrap();
+            transform.translation.y += 2.0 * multiplier;
+        }
+    }
+
+    if keyboard.just_pressed(KeyCode::S) {
+        for entity in selected.iter() {
+            let mut transform = transform_query.get_mut(entity).unwrap();
+            transform.translation.y -= 2.0 * multiplier;
+        }
+    }
+
+    if keyboard.just_pressed(KeyCode::D) {
+        for entity in selected.iter() {
+            let mut transform = transform_query.get_mut(entity).unwrap();
+            transform.translation.x += 2.0 * multiplier;
+        }
+    }
+
+    if keyboard.just_pressed(KeyCode::A) {
+        for entity in selected.iter() {
+            let mut transform = transform_query.get_mut(entity).unwrap();
+            transform.translation.x -= 2.0 * multiplier;
+        }
+    }
+
     if !hovered.is_empty() && mouse_input.just_pressed(MouseButton::Left) {
         let mut contains = false;
         for entity in hovered.iter() {
