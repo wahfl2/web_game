@@ -45,8 +45,6 @@ pub fn player_controls(
             steps: 0,
         });
 
-        //web_meshes.handles[0].clone()
-
         commands.spawn_bundle(MaterialMesh2dBundle {
             mesh: meshes.add(shape::Box::new(1.0, 1.0, 0.0).into()).into(),
             material: materials.add(ColorMaterial::from(Color::WHITE)),
@@ -126,7 +124,8 @@ pub fn player_controls(
                 );
 
                 let hit_entity_transform = transform_query.get(hit_entity).unwrap();
-                let local_stick_point = (intersection.point - hit_entity_transform.translation.xy()) + (intersection.normal * (ball_diameter * 0.5));
+                let local_raw_stick_point = (intersection.point - hit_entity_transform.translation.xy()) + (intersection.normal * (ball_diameter * 0.5));
+                let local_stick_point = hit_entity_transform.rotation.inverse().mul_vec3(local_raw_stick_point.extend(0.0)).xy();
 
                 let middle_joint = RevoluteJointBuilder::new()
                     .local_anchor1(Vec2::ZERO)
