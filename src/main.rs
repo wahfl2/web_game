@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy_inspector_egui::WorldInspectorPlugin;
 use bevy_rapier2d::prelude::*;
 use editor::{editor::EditorPlugin, serde::SaveLoaded};
 use game::{level::{level_startup, LevelEntity}, GamePlugin};
@@ -13,6 +14,7 @@ pub const METERS_PER_PIXEL: f32 = 1.0 / 1000.0;
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
+        .add_plugin(WorldInspectorPlugin::new())
         .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(1.0 / METERS_PER_PIXEL))
         .add_plugin(RapierDebugRenderPlugin::default())
         .add_plugin(GamePlugin)

@@ -1,9 +1,12 @@
-use bevy::{prelude::*, math::Vec3Swizzles};
+use bevy::{prelude::*, math::Vec3Swizzles, sprite::{MaterialMesh2dBundle, Mesh2dHandle}};
 use bevy_rapier2d::prelude::*;
 
 use crate::{util::{Cursor, EntityQuery}, editor::components::EditorShape, game::player::spawn::Attached};
 
-use super::spawn::Player;
+use super::spawn::{Player, WebMeshes};
+
+pub const STEP_LENGTH: f32 = 100.0;
+pub const MAX_WEB_LENGTH: f32 = 900.0;
 
 #[derive(Component)]
 pub struct ShootingWeb {
@@ -12,6 +15,12 @@ pub struct ShootingWeb {
     max_length: f32,
     pub steps: u32,
 }
+
+#[derive(Deref, DerefMut)]
+pub struct FailedShot(pub bool);
+
+#[derive(Component)]
+pub struct WebShotVisual;
 
 #[derive(Component)]
 pub struct WebPart;
@@ -22,13 +31,18 @@ pub fn player_controls(
     keyboard: Res<Input<KeyCode>>,
     cursor: Res<Cursor>,
     mouse: Res<Input<MouseButton>>,
+    mut failed_shot: ResMut<FailedShot>,
 
     rapier_context: Res<RapierContext>,
+    mut materials: ResMut<Assets<ColorMaterial>>,
+    mut meshes: ResMut<Assets<Mesh>>,
 
     mut player_q: Query<(Entity, &mut Player)>,
     web_part_q: EntityQuery<WebPart>,
+    web_shot_q: EntityQuery<WebShotVisual>,
 
-    transform_query: Query<&Transform>,
+    mut transform_query: Query<&mut Transform>,
+    mut visibility_query: Query<&mut Visibility>,
     mut shooting_query: Query<&mut ShootingWeb>,
     mut impulse_joint_query: Query<&mut ImpulseJoint>,
     shape_with_joint: Query<Entity, (With<EditorShape>, With<ImpulseJoint>)>,
@@ -39,23 +53,36 @@ pub fn player_controls(
     let hand_l_position = (arm_l_transform.rotation.mul_vec3(Vec3::X * 15.0) + arm_l_transform.translation).xy();
 
     if mouse.just_pressed(MouseButton::Left) {
-        let ray_length = 100.0;
+        let ray_length = STEP_LENGTH;
         let ray_norm = (cursor.world_pos - hand_l_position).normalize();
 
         commands.entity(player_entity).insert(ShootingWeb {
             ray_norm,
             ray_length,
-            max_length: 900.0,
+            max_length: MAX_WEB_LENGTH,
             steps: 0,
         });
-    } else if mouse.pressed(MouseButton::Left) {
+
+        //web_meshes.handles[0].clone()
+
+        commands.spawn_bundle(MaterialMesh2dBundle {
+            mesh: meshes.add(shape::Box::new(1.0, 1.0, 0.0).into()).into(),
+            material: materials.add(ColorMaterial::from(Color::WHITE)),
+            transform: Transform::from_translation(hand_l_position.extend(0.0))
+                .with_rotation(Quat::from_rotation_arc(Vec3::Y, ray_norm.extend(0.0)))
+                .with_scale(Vec3::new(6.0, 6.0, 1.0)),
+            
+            ..default()
+        }).insert(WebShotVisual);
+
+    } else if mouse.pressed(MouseButton::Left) && !**failed_shot {
         if let Some(attached) = &player.attached {
             let move_dist = (attached.hit_point - cursor.world_pos).normalize().dot(cursor.delta);
             let subtract = move_dist / (attached.num_segments * 8) as f32;
 
             web_part_q.for_each(|e| {
                 let mut impulse_joint = impulse_joint_query.get_mut(e).unwrap();
-                let mut joint = impulse_joint.data.as_revolute_mut().unwrap();
+                let joint = impulse_joint.data.as_revolute_mut().unwrap();
                 
                 let anchor = joint.local_anchor2();
                 joint.set_local_anchor2(anchor.clamp_length(0.0, anchor.length() - subtract));
@@ -66,7 +93,15 @@ pub fn player_controls(
             let hand_l_position = (arm_l_transform.rotation.mul_vec3(Vec3::X * 15.0) + arm_l_transform.translation).xy();
 
             let mut shooting = shooting_query.get_mut(player_entity).unwrap();
-            shooting.steps += 1;
+            if (shooting.steps + 1) as f32 * shooting.ray_length <= shooting.max_length {
+                shooting.steps += 1;
+            } else {
+                **failed_shot = true;
+                web_shot_q.for_each(|e| { 
+                    let mut vis = visibility_query.get_mut(e).unwrap();
+                    vis.is_visible = false;
+                });
+            }
 
             let raycast = rapier_context.cast_ray_and_get_normal(
                 hand_l_position, 
@@ -84,6 +119,8 @@ pub fn player_controls(
             );
 
             if let Some((hit_entity, intersection)) = raycast {
+                // lol im lazy
+                **failed_shot = false;
                 let ball_diameter = 8.0;
                 let length = (intersection.point - hand_l_position).length();
                 let num_balls = (length / ball_diameter).ceil() as u32;
@@ -130,7 +167,12 @@ pub fn player_controls(
                         );
                     }
 
-                    prev_entity = Some(commands.spawn_bundle(TransformBundle::from_transform(Transform::from_translation(pos.extend(0.0))))
+                    prev_entity = Some(commands.spawn_bundle(MaterialMesh2dBundle {
+                        transform: Transform::from_translation(pos.extend(0.0)),
+                        mesh: meshes.add(shape::Circle::new(ball_diameter * 0.5).into()).into(),
+                        material: materials.add(ColorMaterial::from(Color::WHITE)),
+                        ..default()
+                    })
                         .insert_bundle(bundle.clone())
                         .insert_bundle((
                             RigidBody::Dynamic,
@@ -141,8 +183,6 @@ pub fn player_controls(
                     prev_pos = pos;
                 }
 
-                info!("{:?}", intersection);
-
                 let hit_joint = ImpulseJoint::new(
                     prev_entity.unwrap(), 
                     RevoluteJointBuilder::new()
@@ -151,23 +191,33 @@ pub fn player_controls(
                 );
 
                 commands.entity(hit_entity).insert(hit_joint);
+                web_shot_q.for_each(|e| { commands.entity(e).despawn(); });
 
                 player.attached = Some(Attached {
                     hit_point: intersection.point,
                     start_cursor_pos: cursor.pos,
                     num_segments: num_balls,
                 });
+            } else {
+                // Extend line that represents web
+                let web_shot_entity = web_shot_q.iter().next().unwrap();
+                let mut web_shot_transform = transform_query.get_mut(web_shot_entity).unwrap();
+
+                let web_length = shooting.ray_length * shooting.steps as f32;
+                let end_pos = hand_l_position + (shooting.ray_norm * web_length);
+                web_shot_transform.translation = ((hand_l_position + end_pos) * 0.5).extend(0.0);
+                web_shot_transform.scale.y = web_length;
             }
         }
     }
 
     if mouse.just_released(MouseButton::Left) {
-        for entity in web_part_q.iter() {
-            commands.entity(entity).despawn();
-        }
+        **failed_shot = false;
+        web_part_q.for_each(|e| { commands.entity(e).despawn(); });
+        web_shot_q.for_each(|e| { commands.entity(e).despawn(); });
+        shape_with_joint.for_each(|e| { commands.entity(e).remove::<ImpulseJoint>(); });
 
         player.attached = None;
         commands.entity(player_entity).remove::<ShootingWeb>();
-        shape_with_joint.for_each(|entity| { commands.entity(entity).remove::<ImpulseJoint>(); });
     }
 }

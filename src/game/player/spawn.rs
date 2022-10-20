@@ -1,9 +1,11 @@
 use std::f32::consts::PI;
 
-use bevy::prelude::*;
+use bevy::{prelude::*, sprite::Mesh2dHandle};
 use bevy_rapier2d::prelude::*;
 
 use crate::util::DEGREES;
+
+use super::controls::{STEP_LENGTH, MAX_WEB_LENGTH};
 
 #[derive(Component)]
 pub struct Player {
@@ -70,4 +72,29 @@ pub fn player_spawn(
     commands.spawn_bundle(TransformBundle::from_transform(Transform::from_scale(Vec3::splat(p))))
         .insert(Player { body, arm_r, arm_l, attached: None })
         .insert_children(0, &[body, arm_r, arm_l]);
+}
+
+pub struct WebMeshes {
+    pub handles: Vec<Mesh2dHandle>,
+}
+
+pub fn preprocess_webs(
+    mut commands: Commands,
+    
+    mut meshes: ResMut<Assets<Mesh>>,
+) {
+    let mut handles = Vec::new();
+    let num_meshes = (MAX_WEB_LENGTH / STEP_LENGTH).ceil() as u32 + 1;
+
+    let mut capsule = shape::Capsule::default();
+    capsule.radius = 10.0;
+    capsule.latitudes = 4;
+    capsule.longitudes = 8;
+
+    for i in 0..num_meshes {
+        capsule.depth = i as f32 * STEP_LENGTH;
+        handles.push(meshes.add(capsule.clone().into()).into());
+    }
+
+    commands.insert_resource(WebMeshes { handles });
 }
