@@ -2,7 +2,7 @@ use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 use bevy_rapier2d::rapier::geometry::Group;
 
-use crate::util::{Cursor, EntityQuery, update_color_material};
+use crate::util::{Cursor, EntityQuery};
 
 use super::components::*;
 
@@ -12,9 +12,7 @@ pub fn hover_shapes(
     cursor: Res<Cursor>,
     mouse_button_input: Res<Input<MouseButton>>,
     rapier_context: Res<RapierContext>,
-    mut materials: ResMut<Assets<ColorMaterial>>,
 
-    material_query: Query<&Handle<ColorMaterial>>,
     current_hovered_query: EntityQuery<Hovered>,
 ) {
     if mouse_button_input.pressed(MouseButton::Left) { return }

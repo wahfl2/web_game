@@ -5,7 +5,7 @@ use bevy_rapier2d::prelude::{Collider, Sensor, RapierContext};
 
 use crate::game::level::Level;
 use crate::game::player::spawn::player_spawn;
-use crate::util::{EntityQuery, Cursor, update_color_material, cursor_pos};
+use crate::util::{EntityQuery, Cursor, cursor_pos};
 
 use super::camera::camera_movement;
 use super::color_handler::color_handler;
@@ -59,15 +59,11 @@ pub fn editor(
     cursor: Res<Cursor>,
     rapier_context: Res<RapierContext>,
 
-    camera: EntityQuery<Camera>,
-    shapes: EntityQuery<EditorShape>,
     selected: EntityQuery<Selected>,
     hovered: EntityQuery<Hovered>,
     mut select_box: Query<(Entity, &mut EditorSelectBox)>,
 
-    material_query: Query<&Handle<ColorMaterial>>,
     mut transform_query: Query<&mut Transform>,
-    mut editor_shape_query: Query<&mut EditorShape>,
 
     mut spawn_shape_param: SpawnShapeParam,
 ) {

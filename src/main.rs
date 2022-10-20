@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_inspector_egui::WorldInspectorPlugin;
 use bevy_rapier2d::prelude::*;
-use editor::{editor::EditorPlugin, serde::SaveLoaded};
+use editor::serde::SaveLoaded;
 use game::{level::{level_startup, LevelEntity}, GamePlugin};
 use util::{Cursor, cursor_pos};
 

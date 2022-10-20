@@ -1,4 +1,4 @@
-use bevy::{prelude::*, input::mouse::{MouseWheel, MouseScrollUnit}};
+use bevy::{prelude::*, input::mouse::MouseWheel};
 
 use crate::util::Cursor;
 

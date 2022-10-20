@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::editor::{serde::editor_load, camera::camera_movement};
+use crate::editor::serde::editor_load;
 
 use self::player::{spawn::{player_spawn, preprocess_webs}, controls::{player_controls, FailedShot}, camera::player_camera};
 

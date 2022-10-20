@@ -1,9 +1,9 @@
-use bevy::{prelude::*, math::Vec3Swizzles, sprite::{MaterialMesh2dBundle, Mesh2dHandle}};
+use bevy::{prelude::*, math::Vec3Swizzles, sprite::MaterialMesh2dBundle};
 use bevy_rapier2d::prelude::*;
 
 use crate::{util::{Cursor, EntityQuery}, editor::components::EditorShape, game::player::spawn::Attached};
 
-use super::spawn::{Player, WebMeshes};
+use super::spawn::Player;
 
 pub const STEP_LENGTH: f32 = 100.0;
 pub const MAX_WEB_LENGTH: f32 = 900.0;
@@ -28,7 +28,6 @@ pub struct WebPart;
 pub fn player_controls(
     mut commands: Commands,
 
-    keyboard: Res<Input<KeyCode>>,
     cursor: Res<Cursor>,
     mouse: Res<Input<MouseButton>>,
     mut failed_shot: ResMut<FailedShot>,

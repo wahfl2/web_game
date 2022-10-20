@@ -2,8 +2,6 @@ use bevy::{prelude::*, sprite::MaterialMesh2dBundle};
 use bevy_rapier2d::prelude::*;
 use serde::{Serialize, Deserialize};
 
-use crate::METERS_PER_PIXEL;
-
 use super::editor::SpawnShapeParam;
 
 #[derive(Serialize, Deserialize, Component, Clone, Debug)]
@@ -41,7 +39,7 @@ pub struct Selectable;
 pub struct Hoverable;
 
 impl EditorShape {
-    pub fn new(shape_type: ShapeType, dimensions: Vec2) -> Self {
+    pub fn new(shape_type: ShapeType) -> Self {
         Self {
             shape_type,
         }

@@ -1,9 +1,5 @@
-use std::f32::consts::PI;
-
 use bevy::{prelude::*, sprite::Mesh2dHandle};
 use bevy_rapier2d::prelude::*;
-
-use crate::util::DEGREES;
 
 use super::controls::{STEP_LENGTH, MAX_WEB_LENGTH};
 
