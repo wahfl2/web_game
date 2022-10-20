@@ -26,6 +26,7 @@ fn main() {
         .insert_resource(RapierConfiguration {
             gravity: Vec2::new(0.0, -750.0),
             timestep_mode: TimestepMode::Fixed { dt: 1.0 / 60.0, substeps: 16 },
+            scaled_shape_subdivision: 32,
             ..default()
         })
         .add_system_to_stage(CoreStage::PreUpdate, cursor_pos)
