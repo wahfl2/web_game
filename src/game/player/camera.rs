@@ -12,7 +12,7 @@ pub fn player_camera(
 ) {
     let body_pos = transform_query.get(player_q.single().body).unwrap().translation.xy();
     let cam_pos = transform_query.get(camera_q.single()).unwrap().translation.xy();
-    let new_cam_pos = body_pos.lerp(cam_pos, 0.9);
+    let new_cam_pos = body_pos.lerp(cam_pos, 0.75);
 
     let mut cam_transform = transform_query.get_mut(camera_q.single()).unwrap();
     cam_transform.translation = new_cam_pos.extend(0.0);
