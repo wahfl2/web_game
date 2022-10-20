@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use crate::editor::serde::editor_load;
 
-use self::player::{spawn::{player_spawn, preprocess_webs}, controls::{player_controls, FailedShot}, camera::player_camera};
+use self::player::{spawn::{player_spawn, preprocess_webs}, controls::player_controls, camera::player_camera, components::*};
 
 pub mod level;
 pub mod player;

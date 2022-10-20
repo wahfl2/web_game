@@ -2,7 +2,7 @@ use bevy::{prelude::*, math::Vec3Swizzles};
 
 use crate::util::EntityQuery;
 
-use super::spawn::Player;
+use crate::game::Player;
 
 pub fn player_camera(
     camera_q: EntityQuery<Camera>,

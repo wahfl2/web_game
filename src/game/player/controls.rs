@@ -1,29 +1,12 @@
 use bevy::{prelude::*, math::Vec3Swizzles, sprite::MaterialMesh2dBundle};
 use bevy_rapier2d::prelude::*;
 
-use crate::{util::{Cursor, EntityQuery}, editor::components::EditorShape, game::player::spawn::Attached};
+use crate::{util::{Cursor, EntityQuery}, editor::components::EditorShape};
 
-use super::spawn::Player;
+use super::components::*;
 
 pub const STEP_LENGTH: f32 = 100.0;
 pub const MAX_WEB_LENGTH: f32 = 900.0;
-
-#[derive(Component)]
-pub struct ShootingWeb {
-    ray_norm: Vec2,
-    ray_length: f32,
-    max_length: f32,
-    pub steps: u32,
-}
-
-#[derive(Deref, DerefMut)]
-pub struct FailedShot(pub bool);
-
-#[derive(Component)]
-pub struct WebShotVisual;
-
-#[derive(Component)]
-pub struct WebPart;
 
 pub fn player_controls(
     mut commands: Commands,

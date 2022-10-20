@@ -1,22 +1,7 @@
 use bevy::{prelude::*, sprite::Mesh2dHandle};
 use bevy_rapier2d::prelude::*;
 
-use super::controls::{STEP_LENGTH, MAX_WEB_LENGTH};
-
-#[derive(Component)]
-pub struct Player {
-    pub body: Entity,
-    pub arm_r: Entity,
-    pub arm_l: Entity,
-    pub attached: Option<Attached>,
-}
-
-#[derive(Component)]
-pub struct Attached {
-    pub hit_point: Vec2,
-    pub start_cursor_pos: Vec2,
-    pub num_segments: u32,
-}
+use super::{controls::{STEP_LENGTH, MAX_WEB_LENGTH}, components::*};
 
 pub fn player_spawn(
     mut commands: Commands,
