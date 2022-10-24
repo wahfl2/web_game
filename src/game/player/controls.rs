@@ -59,13 +59,14 @@ pub fn player_controls(
         if let Some(attached) = &player.attached {
             let move_dist = (attached.hit_point - cursor.world_pos).normalize().dot(cursor.delta);
             let subtract = move_dist / (attached.num_segments * 8) as f32;
+            let min_joint_length = attached.min_length / attached.num_segments as f32;
 
             web_part_q.for_each(|e| {
                 let mut impulse_joint = impulse_joint_query.get_mut(e).unwrap();
                 let joint = impulse_joint.data.as_revolute_mut().unwrap();
                 
                 let anchor = joint.local_anchor2();
-                joint.set_local_anchor2(anchor.clamp_length(0.0, anchor.length() - subtract));
+                joint.set_local_anchor2((anchor.normalize() * (anchor.length() - subtract)).clamp_length_min(min_joint_length));
             });
         } else {
             // Try to attach
@@ -178,6 +179,7 @@ pub fn player_controls(
                     hit_point: intersection.point,
                     start_cursor_pos: cursor.pos,
                     num_segments: num_balls,
+                    min_length: (intersection.toi - 100.0).max(0.1),
                 });
             } else {
                 // Extend line that represents web

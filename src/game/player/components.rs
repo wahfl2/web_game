@@ -13,6 +13,7 @@ pub struct Attached {
     pub hit_point: Vec2,
     pub start_cursor_pos: Vec2,
     pub num_segments: u32,
+    pub min_length: f32,
 }
 
 #[derive(Component)]
