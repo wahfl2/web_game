@@ -39,7 +39,7 @@ impl Cursor {
 
 pub fn cursor_pos(
     projection: Query<&OrthographicProjection>,
-    c_transform_query: Query<&Transform, With<Camera>>,
+    c_transform_query: Query<&GlobalTransform, With<Camera>>,
 
     windows: Res<Windows>,
     mut cursor: ResMut<Cursor>,
@@ -58,7 +58,7 @@ pub fn cursor_pos(
 
         cursor.pos = pos;
         
-        let cam_translation = c_transform_query.single().translation;
+        let cam_translation = c_transform_query.single().compute_transform().translation;
         cursor.world_pos = (pos * scale) + cam_translation.xy();
 
         cursor.moved = true;
