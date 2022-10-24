@@ -36,7 +36,7 @@ pub fn player_spawn(
             custom_size: Some(Vec2::new(40.0, 10.0)),
             ..default()
         },
-        transform: Transform::from_xyz(0.0, 0.0, 0.0),
+        transform: Transform::from_xyz(45.0, 20.0, 0.0),
         ..default()
     }).insert_bundle((
         Collider::capsule_x(15.0, 5.0),
@@ -59,7 +59,7 @@ pub fn player_spawn(
             flip_x: true,
             ..default()
         },
-        transform: Transform::from_xyz(0.0, 0.0, 0.0),
+        transform: Transform::from_xyz(-45.0, 20.0, 0.0),
         ..default()
     }).insert_bundle((
         Collider::capsule_x(15.0, 5.0),

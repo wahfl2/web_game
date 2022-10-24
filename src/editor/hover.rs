@@ -23,7 +23,7 @@ pub fn hover_shapes(
             cursor.world_pos, 
             QueryFilter::default().groups(
                 InteractionGroups::new(Group::ALL, Group::from_bits_truncate(0b1))
-            ), 
+            ).exclude_sensors(), 
             |entity| {
                 last = Some(entity);
                 true
