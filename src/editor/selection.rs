@@ -14,6 +14,7 @@ pub fn selection_manipulation(
     selected: EntityQuery<Selected>,
     hovered: EntityQuery<Hovered>,
     
+    mut editor_shape_query: Query<&mut EditorShape>,
     mut transform_query: Query<&mut Transform>,
 ) {
     let single = selected.iter().len() == 1;
@@ -72,6 +73,13 @@ pub fn selection_manipulation(
                 let mut transform = transform_query.get_mut(entity).unwrap();
                 transform.rotate_around(center_pt.extend(0.0), rot);
             }
+        }
+    }
+
+    if keyboard.just_pressed(KeyCode::X) {
+        for entity in selected.iter() {
+            let mut editor_shape = editor_shape_query.get_mut(entity).unwrap();
+            editor_shape.stickable = !editor_shape.stickable;
         }
     }
 
