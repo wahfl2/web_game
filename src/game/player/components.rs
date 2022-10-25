@@ -8,7 +8,7 @@ pub struct Player {
     pub attached: Option<Attached>,
 }
 
-#[derive(Component)]
+#[derive(Component, Debug)]
 pub struct Attached {
     pub hit_point: Vec2,
     pub start_cursor_pos: Vec2,

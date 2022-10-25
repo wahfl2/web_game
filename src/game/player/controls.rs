@@ -1,12 +1,12 @@
-use bevy::{prelude::*, math::Vec3Swizzles, sprite::MaterialMesh2dBundle};
+use bevy::{prelude::*, math::Vec3Swizzles, sprite::MaterialMesh2dBundle, input::mouse::MouseMotion};
 use bevy_rapier2d::prelude::*;
 
 use crate::{util::{Cursor, EntityQuery}, editor::components::EditorShape};
 
 use super::components::*;
 
-pub const STEP_LENGTH: f32 = 100.0;
-pub const MAX_WEB_LENGTH: f32 = 900.0;
+pub const STEP_LENGTH: f32 = 200.0;
+pub const MAX_WEB_LENGTH: f32 = 801.0;
 
 pub fn player_controls(
     mut commands: Commands,
@@ -14,6 +14,8 @@ pub fn player_controls(
     cursor: Res<Cursor>,
     mouse: Res<Input<MouseButton>>,
     mut failed_shot: ResMut<FailedShot>,
+
+    mut mouse_motion_events: EventReader<MouseMotion>,
 
     rapier_context: Res<RapierContext>,
     mut materials: ResMut<Assets<ColorMaterial>>,
@@ -29,6 +31,7 @@ pub fn player_controls(
     mut impulse_joint_query: Query<&mut ImpulseJoint>,
     shape_with_joint: Query<Entity, (With<EditorShape>, With<ImpulseJoint>)>,
 ) {
+    if player_q.is_empty() { return }
     let (player_entity, mut player) = player_q.single_mut();
 
     let arm_l_transform = transform_query.get(player.arm_l).unwrap();
@@ -57,17 +60,25 @@ pub fn player_controls(
 
     } else if mouse.pressed(MouseButton::Left) && !**failed_shot {
         if let Some(attached) = &player.attached {
-            let move_dist = (attached.hit_point - cursor.world_pos).normalize().dot(cursor.delta);
-            let subtract = move_dist / (attached.num_segments * 8) as f32;
-            let min_joint_length = attached.min_length / attached.num_segments as f32;
+            if !mouse_motion_events.is_empty() {
+                let mut delta = Vec2::ZERO;
+                mouse_motion_events.iter().for_each(|e| { 
+                    delta.x -= e.delta.x; 
+                    delta.y += e.delta.y; 
+                });
 
-            web_part_q.for_each(|e| {
-                let mut impulse_joint = impulse_joint_query.get_mut(e).unwrap();
-                let joint = impulse_joint.data.as_revolute_mut().unwrap();
-                
-                let anchor = joint.local_anchor2();
-                joint.set_local_anchor2((anchor.normalize() * (anchor.length() - subtract)).clamp_length_min(min_joint_length));
-            });
+                let move_dist = (hand_l_position - attached.hit_point).normalize().dot(-delta);
+                let subtract = move_dist / (attached.num_segments * 8) as f32;
+                let min_joint_length = attached.min_length / attached.num_segments as f32;
+
+                web_part_q.for_each(|e| {
+                    let mut impulse_joint = impulse_joint_query.get_mut(e).unwrap();
+                    let joint = impulse_joint.data.as_revolute_mut().unwrap();
+                    
+                    let anchor = joint.local_anchor2();
+                    joint.set_local_anchor2((anchor.normalize() * (anchor.length() - subtract)).clamp_length_min(min_joint_length));
+                });
+            }
         } else {
             // Try to attach
             let arm_l_transform = transform_query.get(player.arm_l).unwrap();
@@ -179,7 +190,7 @@ pub fn player_controls(
                     hit_point: intersection.point,
                     start_cursor_pos: cursor.pos,
                     num_segments: num_balls,
-                    min_length: (intersection.toi - 100.0).max(0.1),
+                    min_length: (intersection.toi - 150.0).max(40.0),
                 });
             } else {
                 // Extend line that represents web

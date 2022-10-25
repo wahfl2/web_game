@@ -16,6 +16,8 @@ pub fn player_camera(
 
     mut transform_query: Query<&mut Transform>,
 ) {
+    if player_q.is_empty() { return }
+
     let body_pos = transform_query.get(player_q.single().body).unwrap().translation.xy();
     let follow_pos = transform_query.get(player_follow_q.single()).unwrap().translation.xy();
     let new_follow_pos = body_pos.lerp(follow_pos, 0.75);
