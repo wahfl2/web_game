@@ -1,10 +1,11 @@
 use std::marker::PhantomData;
 
 use bevy::{prelude::*, ecs::system::SystemParam};
+use bevy_inspector_egui::egui::text_edit::TextEditOutput;
 use bevy_rapier2d::prelude::{Collider, Sensor, RapierContext};
 
 use crate::game::level::Level;
-use crate::game::player::spawn::player_spawn;
+use crate::game::player::spawn::{player_spawn, Respawn};
 use crate::util::{EntityQuery, Cursor, cursor_pos};
 
 use super::camera::camera_movement;
@@ -19,7 +20,8 @@ pub struct EditorPlugin;
 impl Plugin for EditorPlugin {
     fn build(&self, app: &mut App) {
         app.add_startup_system(editor_startup)
-            .add_startup_system(player_spawn)
+            .insert_resource(Respawn(true))
+            .add_system(player_spawn)
             .add_system_to_stage(CoreStage::PreUpdate, camera_movement.after(cursor_pos))
             // Definitely off by one, but who cares
             .add_system(selection_manipulation)
@@ -58,18 +60,21 @@ pub fn editor(
     keyboard_input: Res<Input<KeyCode>>,
     cursor: Res<Cursor>,
     rapier_context: Res<RapierContext>,
+    mut respawn: ResMut<Respawn>,
 
     selected: EntityQuery<Selected>,
     hovered: EntityQuery<Hovered>,
     mut select_box: Query<(Entity, &mut EditorSelectBox)>,
 
     mut transform_query: Query<&mut Transform>,
+    selectable: Query<&Selectable>,
 
     mut spawn_shape_param: SpawnShapeParam,
 ) {
     if keyboard_input.just_pressed(KeyCode::R) {
         let shape = EditorShape {
             shape_type: ShapeType::Rectangle,
+            stickable: true,
         };
 
         shape.spawn(
@@ -83,6 +88,7 @@ pub fn editor(
     if keyboard_input.just_pressed(KeyCode::C) {
         let shape = EditorShape {
             shape_type: ShapeType::Oval,
+            stickable: true
         };
 
         shape.spawn(
@@ -91,6 +97,10 @@ pub fn editor(
             &Transform::from_translation((cursor.world_pos).extend(0.0))
                 .with_scale(Vec3::new(20.0, 20.0, 1.0))
         );
+    }
+
+    if keyboard_input.just_pressed(KeyCode::K) {
+        **respawn = true;
     }
 
     if mouse_button_input.just_pressed(MouseButton::Right) {
@@ -129,8 +139,10 @@ pub fn editor(
                 let selected = {
                     if e1 == select_box_entity { e2 } else { e1 }
                 };
-    
-                commands.entity(selected).insert(Selected);
+                
+                if selectable.contains(selected) {
+                    commands.entity(selected).insert(Selected);
+                }
             }
         }
     }
