@@ -2,6 +2,8 @@ use bevy::{prelude::*, sprite::MaterialMesh2dBundle};
 use bevy_rapier2d::prelude::*;
 use serde::{Serialize, Deserialize};
 
+use crate::util::ColorUpdate;
+
 use super::editor::SpawnShapeParam;
 
 #[derive(Serialize, Deserialize, Component, Clone, Debug)]
@@ -24,6 +26,7 @@ impl Default for EditorSelectBox {
 #[derive(Serialize, Deserialize, Component, Clone, Debug)]
 pub struct EditorShape {
     pub shape_type: ShapeType,
+    pub stickable: bool,
 }
 
 #[derive(Component)]
@@ -39,13 +42,20 @@ pub struct Selectable;
 pub struct Hoverable;
 
 impl EditorShape {
-    pub fn new(shape_type: ShapeType) -> Self {
+    pub fn new(shape_type: ShapeType, stickable: bool) -> Self {
         Self {
             shape_type,
+            stickable
         }
     }
 
     pub fn spawn(self, commands: &mut Commands, param: &mut SpawnShapeParam, transform: &Transform) {
+        let color = ColorUpdate {
+            selected: false,
+            hovered: false,
+            stickable: self.stickable,
+        }.get_color();
+
         let (collider, mesh_bundle) = match self.shape_type {
             ShapeType::Rectangle => {(
                 Collider::cuboid(1.0, 1.0),
@@ -54,7 +64,7 @@ impl EditorShape {
                         shape::Box::new(2.0, 2.0, 0.0).into()
                     ).into(),
 
-                    material: param.materials.add(ColorMaterial::from(Color::RED)),
+                    material: param.materials.add(ColorMaterial::from(color)),
 
                     transform: transform.clone(),
                     ..default()
@@ -64,7 +74,7 @@ impl EditorShape {
                 Collider::ball(1.0),
                 MaterialMesh2dBundle {
                     mesh: param.meshes.add(shape::Circle::new(1.0).into()).into(),
-                    material: param.materials.add(ColorMaterial::from(Color::RED)),
+                    material: param.materials.add(ColorMaterial::from(color)),
                     transform: transform.clone(),
                     ..default()
                 }
@@ -82,6 +92,7 @@ impl EditorShape {
                     Group::from_bits_truncate(0b11111110)
                 ),
                 self,
+                Selectable,
             )).id();
 
         commands.entity(param.level.single()).add_child(child);
