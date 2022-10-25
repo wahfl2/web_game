@@ -3,15 +3,28 @@ use bevy_rapier2d::prelude::*;
 
 use super::{controls::{STEP_LENGTH, MAX_WEB_LENGTH}, components::*};
 
+#[derive(Deref, DerefMut)]
+pub struct Respawn(pub bool);
+
 pub fn player_spawn(
     mut commands: Commands,
 
+    kill_query: Query<Entity, Or<(With<Player>, With<WebPart>, With<WebShotVisual>)>>,
+
     asset_server: Res<AssetServer>,
+    mut respawn: ResMut<Respawn>,
 ) {
+    if !**respawn { return }
+    **respawn = false;
+
+    for entity in kill_query.iter() {
+        commands.entity(entity).despawn_recursive();
+    }
+
     let group = CollisionGroups::new(Group::from_bits_truncate(0b10), Group::ALL);
 
     let body = commands.spawn_bundle(SpriteBundle {
-        texture: asset_server.load("black_capsule.png"),
+        texture: asset_server.load("body_capsule.png"),
         sprite: Sprite {
             custom_size: Some(Vec2::new(40.0, 80.0)),
             ..default()
@@ -71,10 +84,50 @@ pub fn player_spawn(
         group
     )).id();
 
+    let joint = RevoluteJointBuilder::new()
+        .local_anchor1(Vec2::new(-8.75, 21.25))
+        .local_anchor2(Vec2::new(-3.125, 0.0));
+
+    let googly_eye_r = commands.spawn_bundle(SpriteBundle {
+        texture: asset_server.load("eye.png"),
+        sprite: Sprite {
+            custom_size: Some(Vec2::new(11.25, 11.25)),
+            ..default()
+        },
+        transform: Transform::from_xyz(-5.625, 21.25, 0.1),
+        ..default()
+    }).insert_bundle((
+        Collider::ball(5.625),
+        RigidBody::Dynamic,
+        Damping { angular_damping: 2.0, linear_damping: 0.0 },
+        ImpulseJoint::new(body, joint),
+        CollisionGroups::new(Group::NONE, Group::NONE),
+    )).id();
+
+    let joint = RevoluteJointBuilder::new()
+        .local_anchor1(Vec2::new(8.75, 21.25))
+        .local_anchor2(Vec2::new(3.125, 0.0));
+
+    let googly_eye_l = commands.spawn_bundle(SpriteBundle {
+        texture: asset_server.load("eye.png"),
+        sprite: Sprite {
+            custom_size: Some(Vec2::new(11.25, 11.25)),
+            ..default()
+        },
+        transform: Transform::from_xyz(5.625, 21.25, 0.1),
+        ..default()
+    }).insert_bundle((
+        Collider::ball(5.625),
+        RigidBody::Dynamic,
+        Damping { angular_damping: 2.0, linear_damping: 0.0 },
+        ImpulseJoint::new(body, joint),
+        CollisionGroups::new(Group::NONE, Group::NONE),
+    )).id();
+
     commands.spawn_bundle(TransformBundle::default())
         .insert_bundle(VisibilityBundle::default())
         .insert(Player { body, arm_r, arm_l, attached: None })
-        .insert_children(0, &[body, arm_r, arm_l]);
+        .insert_children(0, &[body, arm_r, arm_l, googly_eye_r, googly_eye_l]);
 }
 
 pub struct WebMeshes {
