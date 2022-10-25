@@ -1,13 +1,14 @@
 use bevy::prelude::*;
 use bevy_inspector_egui::WorldInspectorPlugin;
 use bevy_rapier2d::prelude::*;
-use editor::serde::SaveLoaded;
+use editor::{serde::SaveLoaded, editor::EditorPlugin};
 use game::{level::{level_startup, LevelEntity}, GamePlugin, player::camera::PlayerFollow};
 use util::{Cursor, cursor_pos};
 
 pub mod game;
 pub mod editor;
 pub mod util;
+pub mod constants;
 
 pub const METERS_PER_PIXEL: f32 = 1.0 / 1000.0;
 
@@ -29,6 +30,8 @@ fn main() {
             scaled_shape_subdivision: 32,
             ..default()
         })
+        .insert_resource(ClearColor(Color::BLACK))
+        .insert_resource(Msaa { samples: 4 })
         .add_system_to_stage(CoreStage::PreUpdate, cursor_pos)
         .run();
 }
