@@ -1,4 +1,4 @@
-use std::f32::consts::PI;
+use std::{f32::consts::PI, iter::Zip};
 
 use bevy::{prelude::*, math::Vec3Swizzles};
 
@@ -69,13 +69,76 @@ pub fn cursor_pos(
     cursor.delta = (cursor.prev_pos - cursor.pos) * scale;
 }
 
+pub struct ColorUpdate {
+    pub selected: bool,
+    pub hovered: bool,
+    pub stickable: bool,
+}
+
+impl ColorUpdate {
+    pub fn get_color(&self) -> Color {
+        let mut ret = match self.stickable {
+            true => Vec3::new(0.5, 0.5, 0.5),
+            false => Vec3::new(0.25, 0.25, 0.25),
+        };
+
+        if self.selected {
+            ret += 0.4;
+        } else if self.hovered {
+            ret += 0.1;
+        }
+
+        Color::rgb(ret.x, ret.y, ret.z)
+    }
+}
+
 pub fn update_color_material(
     handle: &Handle<ColorMaterial>,
     materials: &mut ResMut<Assets<ColorMaterial>>,
-    color: Color,
+    update: ColorUpdate,
 ) {
     let material_op = materials.get_mut(handle);
     if let Some(material) = material_op {
-        material.color = color;
+
+        material.color = update.get_color();
     }
 }
+
+pub struct ZipAll<I, T> {
+    iter: I,
+    zip_item: T,
+}
+
+impl<I, T> ZipAll<I, T> {
+    pub fn new(iter: I, zip_item: T) -> Self {
+        Self { iter, zip_item }
+    }
+}
+
+impl<I, T> Iterator for ZipAll<I, T>
+where 
+    I: Iterator,
+    T: Clone,
+{
+    type Item = (I::Item, T);
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if let Some(item) = self.iter.next() {
+            Some((item, self.zip_item.clone()))
+        } else {
+            None
+        }
+    }
+}
+
+pub trait ZipAllTrait<T>: Iterator {
+    fn zip_all(self, zip_item: T) -> ZipAll<Self, T>
+    where 
+        Self: Sized,
+        T: Clone
+    {
+        ZipAll::new(self, zip_item)
+    }
+}
+
+impl<T, I: Iterator> ZipAllTrait<T> for I {}
