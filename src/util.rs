@@ -1,4 +1,4 @@
-use std::{f32::consts::PI, iter::Zip};
+use std::f32::consts::PI;
 
 use bevy::{prelude::*, math::Vec3Swizzles};
 

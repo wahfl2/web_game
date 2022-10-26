@@ -1,7 +1,7 @@
-use bevy::{prelude::*, sprite::Mesh2dHandle};
+use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
-use super::{controls::{STEP_LENGTH, MAX_WEB_LENGTH}, components::*};
+use super::components::*;
 
 #[derive(Deref, DerefMut)]
 pub struct Respawn(pub bool);
@@ -88,7 +88,7 @@ pub fn player_spawn(
         .local_anchor1(Vec2::new(-8.75, 21.25))
         .local_anchor2(Vec2::new(-3.125, 0.0));
 
-    let googly_eye_r = commands.spawn_bundle(SpriteBundle {
+    commands.spawn_bundle(SpriteBundle {
         texture: asset_server.load("eye.png"),
         sprite: Sprite {
             custom_size: Some(Vec2::new(11.0, 11.0)),
@@ -102,13 +102,13 @@ pub fn player_spawn(
         Damping { angular_damping: 2.0, linear_damping: 0.0 },
         ImpulseJoint::new(body, joint),
         CollisionGroups::new(Group::NONE, Group::NONE),
-    )).id();
+    ));
 
     let joint = RevoluteJointBuilder::new()
         .local_anchor1(Vec2::new(8.75, 21.25))
         .local_anchor2(Vec2::new(3.125, 0.0));
 
-    let googly_eye_l = commands.spawn_bundle(SpriteBundle {
+    commands.spawn_bundle(SpriteBundle {
         texture: asset_server.load("eye.png"),
         sprite: Sprite {
             custom_size: Some(Vec2::new(11.25, 11.25)),
@@ -122,7 +122,7 @@ pub fn player_spawn(
         Damping { angular_damping: 2.0, linear_damping: 0.0 },
         ImpulseJoint::new(body, joint),
         CollisionGroups::new(Group::NONE, Group::NONE),
-    )).id();
+    ));
 
     commands.spawn().insert(Player { body, arm_r, arm_l, attached: None });
 }
