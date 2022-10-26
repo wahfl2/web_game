@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use crate::editor::serde::editor_load;
 
-use self::player::{spawn::{player_spawn, Respawn}, controls::controls::player_controls, camera::player_camera, components::*};
+use self::player::{spawn::{player_spawn, Respawn}, controls::{controls::{player_controls, WebPartEntities}, web_connections::update_web_connections}, camera::player_camera, components::*};
 
 pub mod level;
 pub mod player;
@@ -14,7 +14,9 @@ impl Plugin for GamePlugin {
             .insert_resource(Respawn(true))
             .add_system(player_spawn)
             .insert_resource(FailedShot(false))
+            .insert_resource(WebPartEntities { entities: Vec::new() })
             .add_system(player_camera)
-            .add_system(player_controls);
+            .add_system(player_controls)
+            .add_system_to_stage(CoreStage::PostUpdate, update_web_connections);
     }
 }

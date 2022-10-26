@@ -142,3 +142,17 @@ pub trait ZipAllTrait<T>: Iterator {
 }
 
 impl<T, I: Iterator> ZipAllTrait<T> for I {}
+
+pub trait ExtraTransformMethods {
+    fn from_pt_to_pt(p1: Vec3, p2: Vec3, width: f32) -> Self;
+}
+
+impl ExtraTransformMethods for Transform {
+    fn from_pt_to_pt(p1: Vec3, p2: Vec3, width: f32) -> Self {
+        Transform { 
+            translation: (p1 + p2) * 0.5,
+            rotation: Quat::from_rotation_arc(Vec3::Y, (p2 - p1).normalize()),
+            scale: Vec3::new(width, p1.distance(p2), 1.0),
+        }
+    }
+}

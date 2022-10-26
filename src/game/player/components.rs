@@ -32,3 +32,9 @@ pub struct WebShotVisual;
 
 #[derive(Component)]
 pub struct WebPart;
+
+#[derive(Component)]
+pub struct WebPartConnection {
+    pub e1: Entity,
+    pub e2: Entity,
+}
