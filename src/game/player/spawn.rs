@@ -29,7 +29,7 @@ pub fn player_spawn(
             custom_size: Some(Vec2::new(40.0, 80.0)),
             ..default()
         },
-        transform: Transform::from_xyz(0.0, 0.0, 0.0),
+        transform: Transform::from_xyz(0.0, 0.0, -10.0),
         ..default()
     }).insert_bundle((
         Collider::capsule_y(20.0, 20.0),
@@ -91,10 +91,10 @@ pub fn player_spawn(
     let googly_eye_r = commands.spawn_bundle(SpriteBundle {
         texture: asset_server.load("eye.png"),
         sprite: Sprite {
-            custom_size: Some(Vec2::new(11.25, 11.25)),
+            custom_size: Some(Vec2::new(11.0, 11.0)),
             ..default()
         },
-        transform: Transform::from_xyz(-5.625, 21.25, 0.1),
+        transform: Transform::from_xyz(-5.625, 21.25, -0.1),
         ..default()
     }).insert_bundle((
         Collider::ball(5.625),
@@ -114,7 +114,7 @@ pub fn player_spawn(
             custom_size: Some(Vec2::new(11.25, 11.25)),
             ..default()
         },
-        transform: Transform::from_xyz(5.625, 21.25, 0.1),
+        transform: Transform::from_xyz(5.625, 21.25, -0.1),
         ..default()
     }).insert_bundle((
         Collider::ball(5.625),
@@ -124,10 +124,7 @@ pub fn player_spawn(
         CollisionGroups::new(Group::NONE, Group::NONE),
     )).id();
 
-    commands.spawn_bundle(TransformBundle::default())
-        .insert_bundle(VisibilityBundle::default())
-        .insert(Player { body, arm_r, arm_l, attached: None })
-        .insert_children(0, &[body, arm_r, arm_l, googly_eye_r, googly_eye_l]);
+    commands.spawn().insert(Player { body, arm_r, arm_l, attached: None });
 }
 
 pub struct WebMeshes {
