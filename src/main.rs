@@ -2,7 +2,7 @@ use bevy::prelude::*;
 use bevy_inspector_egui::WorldInspectorPlugin;
 use bevy_rapier2d::prelude::*;
 use editor::{serde::SaveLoaded, editor::EditorPlugin};
-use game::{level::{level_startup, LevelEntity}, GamePlugin, player::camera::PlayerFollow};
+use game::{level::{level_startup, LevelEntity}, GamePlugin};
 use util::{Cursor, cursor_pos};
 
 pub mod game;
@@ -40,7 +40,4 @@ pub fn setup(
     mut commands: Commands,
 ) {
     let camera = commands.spawn_bundle(Camera2dBundle::default()).id();
-    commands.spawn_bundle(TransformBundle::default())
-        .insert(PlayerFollow)
-        .add_child(camera);
 }
