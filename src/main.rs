@@ -3,7 +3,7 @@ use bevy_inspector_egui::WorldInspectorPlugin;
 use bevy_rapier2d::prelude::*;
 use editor::{serde::SaveLoaded, editor::EditorPlugin};
 use game::{level::{level_startup, LevelEntity}, GamePlugin};
-use util::{Cursor, cursor_pos};
+use util::{Cursor, cursor_pos, preload_assets, PreloadedAssets};
 
 pub mod game;
 pub mod editor;
@@ -21,6 +21,8 @@ fn main() {
         .add_plugin(GamePlugin)
         .add_startup_system(setup)
         .add_startup_system(level_startup)
+        .add_startup_system(preload_assets)
+        .insert_resource(PreloadedAssets::new())
         .insert_resource(SaveLoaded(false))
         .insert_resource(LevelEntity { entity: None })
         .insert_resource(Cursor::default())

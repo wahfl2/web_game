@@ -1,8 +1,8 @@
 use std::f32::consts::PI;
 
-use bevy::{prelude::*, math::Vec3Swizzles};
+use bevy::{prelude::*, math::Vec3Swizzles, utils::HashMap, sprite::Mesh2dHandle};
 
-pub const DEGREES: f32 = 180.0 / PI;
+pub const DEGREES: f32 = PI / 180.0;
 
 pub type EntityQuery<'w, 's, T> = Query<'w, 's, Entity, With<T>>;
 
@@ -154,4 +154,53 @@ impl ExtraTransformMethods for Transform {
             scale: Vec3::new(width, p1.distance(p2), 1.0),
         }
     }
+}
+
+pub struct PreloadedAssets {
+    pub materials: Vec<Handle<ColorMaterial>>,
+    pub meshes: HashMap<&'static str, Mesh2dHandle>,
+}
+
+impl PreloadedAssets {
+    pub fn new() -> Self {
+        PreloadedAssets { materials: Vec::with_capacity(101), meshes: HashMap::new() }
+    }
+
+    pub fn get_bw_color_handle(&self, color: Color) -> &Handle<ColorMaterial> {
+        let gray = (color.r() * 0.299) + (color.g() * 0.587) + (color.b() * 0.114);
+        let i = (gray * 100.0).round() as usize;
+        self.materials.get(i).unwrap()
+    }
+}
+
+pub fn preload_assets(
+    mut preloaded: ResMut<PreloadedAssets>,
+
+    mut materials: ResMut<Assets<ColorMaterial>>,
+    mut meshes: ResMut<Assets<Mesh>>,
+) {
+    for i in 0..=100 {
+        let f = i as f32 / 100.0;
+        preloaded.materials.push(materials.add(ColorMaterial::from(Color::rgb(f, f, f))));
+    }
+
+    preloaded.meshes.insert(
+        "box 1",
+        meshes.add(shape::Box::new(1.0, 1.0, 0.0).into()).into()
+    );
+
+    preloaded.meshes.insert(
+        "box 2",
+        meshes.add(shape::Box::new(2.0, 2.0, 0.0).into()).into()
+    );
+
+    preloaded.meshes.insert(
+        "circle 1",
+        meshes.add(shape::Circle::new(1.0).into()).into()
+    );
+
+    preloaded.meshes.insert(
+        "circle 4",
+        meshes.add(shape::Circle::new(4.0).into()).into()
+    );
 }
