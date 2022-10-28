@@ -1,11 +1,11 @@
 use bevy::{prelude::*, math::Vec3Swizzles, sprite::MaterialMesh2dBundle, input::mouse::MouseMotion, ecs::system::SystemParam};
 use bevy_rapier2d::prelude::*;
 
-use crate::{util::{Cursor, EntityQuery}, editor::components::EditorShape, game::player::components::*};
+use crate::{util::{Cursor, EntityQuery, PreloadedAssets, DEGREES}, editor::components::EditorShape, game::player::components::*};
 
 use super::raycast::handle_raycast;
 
-pub const STEP_LENGTH: f32 = 200.0;
+pub const STEP_LENGTH: f32 = 100.0;
 pub const MAX_WEB_LENGTH: f32 = 801.0;
 
 pub struct WebPartEntities {
@@ -24,8 +24,7 @@ pub struct PlayerControlsParam<'w, 's> {
     pub mouse_motion_events: EventReader<'w, 's, MouseMotion>,
  
     pub rapier_context: Res<'w, RapierContext>,
-    pub materials: ResMut<'w, Assets<ColorMaterial>>,
-    pub meshes: ResMut<'w, Assets<Mesh>>,
+    pub preload: Res<'w, PreloadedAssets>,
 }
 
 #[derive(SystemParam)]
@@ -65,8 +64,8 @@ pub fn player_controls(
         });
 
         p.commands.spawn_bundle(MaterialMesh2dBundle {
-            mesh: p.meshes.add(shape::Box::new(1.0, 1.0, 0.0).into()).into(),
-            material: p.materials.add(ColorMaterial::from(Color::WHITE)),
+            mesh: p.preload.meshes.get("box 1").unwrap().clone(),
+            material: p.preload.get_bw_color_handle(Color::WHITE).clone(),
             transform: Transform::from_translation(hand_l_position.extend(0.0))
                 .with_rotation(Quat::from_rotation_arc(Vec3::Y, ray_norm.extend(0.0)))
                 .with_scale(Vec3::new(6.0, 6.0, 1.0)),
@@ -116,6 +115,19 @@ pub fn player_controls(
                 let mut shooting = query.shooting.get_mut(player_entity).unwrap();
                 if (shooting.steps + 1) as f32 * shooting.ray_length <= shooting.max_length {
                     shooting.steps += 1;
+                    
+                    let goal = (p.cursor.world_pos - hand_l_position).normalize();
+                    let angle_between = Quat::from_rotation_arc(Vec3::Y, shooting.ray_norm.extend(0.0))
+                        .angle_between(Quat::from_rotation_arc(Vec3::Y, goal.extend(0.0)));
+                    let max_rot = 2.0 * DEGREES;
+
+                    if angle_between > max_rot {
+                        let d_tick = shooting.ray_norm.extend(0.0).cross(goal.extend(0.0)).cross(shooting.ray_norm.extend(0.0)).normalize().xy();
+                        let new_ray_norm = (max_rot.cos() * shooting.ray_norm) + (max_rot.sin() * d_tick);
+                        shooting.ray_norm = new_ray_norm;
+                    } else {
+                        shooting.ray_norm = goal;
+                    }
                 } else {
                     **p.failed_shot = true;
                 }
