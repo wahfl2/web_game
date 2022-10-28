@@ -53,7 +53,7 @@ pub fn handle_raycast(
 
         let mut prev_entity = None;
 
-        for i in 1..num_balls {
+        for i in 1..(num_balls).max(2) {
             let t = ball_t * i as f32;
             let pos = hand_l_position + (shooting.ray_norm * t);
             let joint;
@@ -69,8 +69,8 @@ pub fn handle_raycast(
 
             let entity = p.commands.spawn_bundle(MaterialMesh2dBundle {
                 transform: Transform::from_translation(pos.extend(0.0)),
-                mesh: p.meshes.add(shape::Circle::new(ball_diameter * 0.5).into()).into(),
-                material: p.materials.add(ColorMaterial::from(Color::WHITE)),
+                mesh: p.preload.meshes.get("circle 4").unwrap().clone(),
+                material: p.preload.get_bw_color_handle(Color::WHITE).clone(),
                 ..default()
             })
                 .insert_bundle(bundle.clone())
@@ -109,5 +109,6 @@ pub fn handle_raycast(
         let end_pos = hand_l_position + (shooting.ray_norm * web_length);
         web_shot_transform.translation = ((hand_l_position + end_pos) * 0.5).extend(0.0);
         web_shot_transform.scale.y = web_length;
+        web_shot_transform.rotation = Quat::from_rotation_arc(Vec3::Y, shooting.ray_norm.extend(0.0));
     }
 }

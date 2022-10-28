@@ -60,12 +60,8 @@ impl EditorShape {
             ShapeType::Rectangle => {(
                 Collider::cuboid(1.0, 1.0),
                 MaterialMesh2dBundle {
-                    mesh: param.meshes.add(
-                        shape::Box::new(2.0, 2.0, 0.0).into()
-                    ).into(),
-
-                    material: param.materials.add(ColorMaterial::from(color)),
-
+                    mesh: param.preload.meshes.get("box 2").unwrap().clone(),
+                    material: param.preload.get_bw_color_handle(color).clone(),
                     transform: transform.clone(),
                     ..default()
                 }
@@ -73,8 +69,8 @@ impl EditorShape {
             ShapeType::Oval => {(
                 Collider::ball(1.0),
                 MaterialMesh2dBundle {
-                    mesh: param.meshes.add(shape::Circle::new(1.0).into()).into(),
-                    material: param.materials.add(ColorMaterial::from(color)),
+                    mesh: param.preload.meshes.get("circle 1").unwrap().clone(),
+                    material: param.preload.get_bw_color_handle(color).clone(),
                     transform: transform.clone(),
                     ..default()
                 }

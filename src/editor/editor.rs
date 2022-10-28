@@ -6,7 +6,7 @@ use bevy_rapier2d::prelude::{Collider, Sensor, RapierContext};
 
 use crate::game::level::Level;
 use crate::game::player::spawn::{player_spawn, Respawn};
-use crate::util::{EntityQuery, Cursor, cursor_pos};
+use crate::util::{EntityQuery, Cursor, cursor_pos, PreloadedAssets};
 
 use super::camera::camera_movement;
 use super::color_handler::color_handler;
@@ -35,8 +35,7 @@ impl Plugin for EditorPlugin {
 
 #[derive(SystemParam)]
 pub struct SpawnShapeParam<'w, 's> {
-    pub meshes: ResMut<'w, Assets<Mesh>>,
-    pub materials: ResMut<'w, Assets<ColorMaterial>>,
+    pub preload: Res<'w, PreloadedAssets>,
     pub level: EntityQuery<'w, 's, Level>,
     
     #[system_param(ignore)]
