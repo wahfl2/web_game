@@ -2,7 +2,7 @@ use bevy::sprite::ColorMaterial;
 
 use bevy::prelude::*;
 
-use crate::{util::{EntityQuery, update_color_material, ColorUpdate, ZipAll, ZipAllTrait}, constants};
+use crate::{util::{EntityQuery, update_color_material, ColorUpdate, ZipAll, ZipAllTrait, PreloadedAssets}, constants};
 
 use super::components::*;
 
@@ -16,6 +16,8 @@ pub enum ColorStateChange {
 }
 
 pub fn color_handler(
+    mut commands: Commands,
+
     added_selected: Query<Entity, Added<Selected>>,
     added_hovered: Query<Entity, Added<Hovered>>,
 
@@ -29,8 +31,7 @@ pub fn color_handler(
     selected: EntityQuery<Selected>,
     hovered: EntityQuery<Hovered>,
 
-    mut materials: ResMut<Assets<ColorMaterial>>,
-    material_query: Query<&Handle<ColorMaterial>>,
+    preload: Res<PreloadedAssets>,
 ) {
     let mut updated_entities = Vec::with_capacity(
         added_selected.iter().size_hint().1.unwrap_or(0) + 
@@ -55,14 +56,12 @@ pub fn color_handler(
             ColorStateChange::ChangeSticky => (None, None),
         };
 
-        update_color_material(
-            material_query.get(entity).unwrap(), 
-            &mut materials, 
-            ColorUpdate {
-                selected: sel.unwrap_or(selected.contains(entity)),
-                hovered: hov.unwrap_or(hovered.contains(entity)),
-                stickable: editor_shape_query.get(entity).unwrap().stickable,
-            }
-        );
+        let update = ColorUpdate {
+            selected: sel.unwrap_or(selected.contains(entity)),
+            hovered: hov.unwrap_or(hovered.contains(entity)),
+            stickable: editor_shape_query.get(entity).unwrap().stickable,
+        };
+
+        commands.entity(entity).insert(preload.get_bw_color_handle(update.get_color()).clone());
     }
 }
