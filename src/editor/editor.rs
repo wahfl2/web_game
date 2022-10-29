@@ -44,12 +44,24 @@ pub struct SpawnShapeParam<'w, 's> {
 
 pub fn editor_startup(
     mut commands: Commands,
+
+    asset_server: Res<AssetServer>,
 ) {
     commands.spawn_bundle(TransformBundle::default())
         .insert_bundle((
             Collider::cuboid(0.5, 0.5),
             EditorSelectBox::default()
         )).insert(Sensor);
+
+    let scale = 3.0;
+
+    commands.spawn_bundle(SpriteBundle {
+        transform: Transform::from_translation(Vec3::new(2276.0, 492.0, 0.0) * scale)
+            .with_scale(Vec3::splat(scale)),
+        texture: asset_server.load("level.png"),
+        
+        ..default()
+    });
 }
 
 pub fn editor(
@@ -79,7 +91,7 @@ pub fn editor(
         shape.spawn(
             &mut commands, 
             &mut spawn_shape_param,
-            &Transform::from_translation((cursor.world_pos).extend(0.0))
+            &Transform::from_translation((cursor.world_pos).extend(1.0))
                 .with_scale(Vec3::new(20.0, 20.0, 1.0))
         );
     }
@@ -93,7 +105,7 @@ pub fn editor(
         shape.spawn(
             &mut commands, 
             &mut spawn_shape_param,
-            &Transform::from_translation((cursor.world_pos).extend(0.0))
+            &Transform::from_translation((cursor.world_pos).extend(1.0))
                 .with_scale(Vec3::new(20.0, 20.0, 1.0))
         );
     }
@@ -119,7 +131,7 @@ pub fn editor(
         let (entity, select_box) = select_box.single();
         let mut transform = transform_query.get_mut(entity).unwrap();
 
-        transform.translation = ((select_box.start + cursor.world_pos) / 2.0).extend(0.0);
+        transform.translation = ((select_box.start + cursor.world_pos) / 2.0).extend(1.0);
         transform.scale = (select_box.start - cursor.world_pos).abs().extend(1.0);
     }
 
