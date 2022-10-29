@@ -29,7 +29,7 @@ impl SerdeShape {
         self.shape.spawn(
             commands,
             param, 
-            &Transform::from_translation(self.translation.extend(0.0))
+            &Transform::from_translation(self.translation.extend(1.0))
                 .with_rotation(self.rotation)
                 .with_scale(self.scale.extend(1.0))
         );

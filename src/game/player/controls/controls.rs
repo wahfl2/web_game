@@ -6,7 +6,7 @@ use crate::{util::{Cursor, EntityQuery, PreloadedAssets, DEGREES}, editor::compo
 use super::raycast::handle_raycast;
 
 pub const STEP_LENGTH: f32 = 100.0;
-pub const MAX_WEB_LENGTH: f32 = 801.0;
+pub const MAX_WEB_LENGTH: f32 = 1001.0;
 
 pub struct WebPartEntities {
     pub entities: Vec<Entity>,

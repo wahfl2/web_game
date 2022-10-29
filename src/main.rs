@@ -18,7 +18,7 @@ fn main() {
         // .add_plugin(WorldInspectorPlugin::new())
         .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(1.0 / METERS_PER_PIXEL))
         // .add_plugin(RapierDebugRenderPlugin::default())
-        .add_plugin(GamePlugin)
+        .add_plugin(EditorPlugin)
         .add_startup_system(setup)
         .add_startup_system(level_startup)
         .add_startup_system(preload_assets)
@@ -41,5 +41,5 @@ fn main() {
 pub fn setup(
     mut commands: Commands,
 ) {
-    let camera = commands.spawn_bundle(Camera2dBundle::default()).id();
+    commands.spawn_bundle(Camera2dBundle::default());
 }

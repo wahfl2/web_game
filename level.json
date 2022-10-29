@@ -2,18 +2,118 @@
   "shapes": [
     {
       "shape": {
-        "shape_type": "Rectangle",
+        "shape_type": "Oval",
         "stickable": true
       },
       "translation": [
-        738.4595,
-        394.24118
+        26.400024,
+        -171.20001
       ],
       "rotation": [
         0.0,
         0.0,
-        -0.1494357,
-        0.98877144
+        0.0,
+        1.0
+      ],
+      "scale": [
+        251.0,
+        98.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Oval",
+        "stickable": true
+      },
+      "translation": [
+        -248.79993,
+        -83.19998
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "scale": [
+        77.0,
+        79.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Oval",
+        "stickable": true
+      },
+      "translation": [
+        -372.79993,
+        389.59998
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "scale": [
+        40.0,
+        40.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Oval",
+        "stickable": true
+      },
+      "translation": [
+        -383.19992,
+        468.8
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "scale": [
+        39.0,
+        39.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Oval",
+        "stickable": true
+      },
+      "translation": [
+        -399.99994,
+        536.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "scale": [
+        23.0,
+        26.0
+      ]
+    },
+    {
+      "shape": {
+        "shape_type": "Oval",
+        "stickable": true
+      },
+      "translation": [
+        -403.19995,
+        583.19995
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
       ],
       "scale": [
         20.0,
@@ -22,22 +122,22 @@
     },
     {
       "shape": {
-        "shape_type": "Rectangle",
+        "shape_type": "Oval",
         "stickable": true
       },
       "translation": [
-        -126.87451,
-        464.33783
+        -303.99994,
+        57.600006
       ],
       "rotation": [
         0.0,
         0.0,
-        -0.43496546,
-        0.90044713
+        0.0,
+        1.0
       ],
       "scale": [
-        20.0,
-        20.0
+        70.0,
+        72.0
       ]
     },
     {
@@ -46,94 +146,74 @@
         "stickable": true
       },
       "translation": [
-        -354.56998,
-        395.8276
+        1106.5334,
+        152.9105
       ],
       "rotation": [
         0.0,
         0.0,
-        -0.31930882,
-        0.94765073
+        -0.2763559,
+        0.9610554
       ],
       "scale": [
-        20.0,
-        20.0
+        210.0,
+        44.0
       ]
     },
     {
       "shape": {
-        "shape_type": "Rectangle",
-        "stickable": false
-      },
-      "translation": [
-        826.94415,
-        31.89429
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.04997819,
-        0.9987503
-      ],
-      "scale": [
-        20.0,
-        85.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
+        "shape_type": "Oval",
         "stickable": true
       },
       "translation": [
-        346.1533,
-        53.35391
+        -341.59988,
+        173.6
       ],
       "rotation": [
         0.0,
         0.0,
-        -0.04997933,
-        0.99875027
+        0.0,
+        1.0
       ],
       "scale": [
-        20.0,
-        115.0
+        58.0,
+        58.0
       ]
     },
     {
       "shape": {
-        "shape_type": "Rectangle",
+        "shape_type": "Oval",
         "stickable": true
       },
       "translation": [
-        529.8837,
-        -308.63293
+        365.24847,
+        254.32939
       ],
       "rotation": [
         0.0,
         0.0,
-        -0.54383457,
-        0.83919245
+        0.0,
+        1.0
       ],
       "scale": [
-        53.0,
-        83.0
+        41.0,
+        42.0
       ]
     },
     {
       "shape": {
-        "shape_type": "Rectangle",
+        "shape_type": "Oval",
         "stickable": true
       },
       "translation": [
-        1062.6736,
-        -303.65973
+        -355.19992,
+        292.80005
       ],
       "rotation": [
         0.0,
         0.0,
-        -0.049979344,
-        0.99875027
+        0.0,
+        1.0
       ],
       "scale": [
         59.0,
@@ -146,38 +226,18 @@
         "stickable": true
       },
       "translation": [
-        -405.45605,
-        -303.99802
+        651.0659,
+        297.99567
       ],
       "rotation": [
         0.0,
         0.0,
-        0.019999083,
-        0.9998
+        0.0699479,
+        0.99755067
       ],
       "scale": [
-        66.0,
-        41.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Oval",
-        "stickable": false
-      },
-      "translation": [
-        341.38736,
-        327.98605
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        -0.31930882,
-        0.94765073
-      ],
-      "scale": [
-        49.0,
-        40.0
+        300.0,
+        37.0
       ]
     },
     {
@@ -186,118 +246,18 @@
         "stickable": true
       },
       "translation": [
-        -239.71468,
-        182.23715
+        938.50024,
+        -73.212944
       ],
       "rotation": [
         0.0,
         0.0,
-        0.12467457,
-        0.9921977
+        0.05994327,
+        0.9982018
       ],
       "scale": [
-        196.0,
-        12.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
-        "stickable": true
-      },
-      "translation": [
-        225.67989,
-        617.11334
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ],
-      "scale": [
-        20.0,
-        20.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
-        "stickable": true
-      },
-      "translation": [
-        32.210007,
-        -327.03317
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        -0.19866954,
-        0.98006654
-      ],
-      "scale": [
-        122.0,
-        103.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
-        "stickable": false
-      },
-      "translation": [
-        356.6758,
-        -72.78053
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ],
-      "scale": [
-        908.0,
-        26.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
-        "stickable": true
-      },
-      "translation": [
-        829.6415,
-        389.2344
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ],
-      "scale": [
-        78.0,
-        20.0
-      ]
-    },
-    {
-      "shape": {
-        "shape_type": "Rectangle",
-        "stickable": true
-      },
-      "translation": [
-        814.7926,
-        115.849464
-      ],
-      "rotation": [
-        0.0,
-        0.0,
-        -0.05497151,
-        0.99848795
-      ],
-      "scale": [
-        165.0,
-        7.0
+        30.0,
+        387.6007
       ]
     }
   ]
