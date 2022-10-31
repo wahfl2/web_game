@@ -23,7 +23,7 @@ pub fn player_spawn(
         commands.entity(p.arm_l).despawn();
         commands.entity(p.arm_r).despawn();
         commands.entity(p.body).despawn();
-        
+
         for eye in p.eyes {
             commands.entity(eye).despawn();
         }
@@ -48,6 +48,7 @@ pub fn player_spawn(
         RigidBody::Dynamic,
         Friction::coefficient(0.1),
         Restitution::coefficient(0.7),
+        Velocity::default(),
         group,
     )).id();
 

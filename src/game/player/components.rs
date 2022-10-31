@@ -42,3 +42,6 @@ pub struct WebPartConnection {
 
 #[derive(Deref, DerefMut)]
 pub struct FramesRestartKeyHeld(pub u32);
+
+#[derive(Component)]
+pub struct RespawnMessage;

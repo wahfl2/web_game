@@ -1,4 +1,4 @@
-use bevy::prelude::*;
+use bevy::{prelude::*, window::{WindowPlugin, WindowMode}, app::AppExit};
 use bevy_inspector_egui::WorldInspectorPlugin;
 use bevy_rapier2d::prelude::*;
 use editor::{serde::SaveLoaded, editor::EditorPlugin};
@@ -14,8 +14,12 @@ pub const METERS_PER_PIXEL: f32 = 1.0 / 1000.0;
 
 fn main() {
     App::new()
+        .insert_resource(WindowDescriptor {
+            mode: WindowMode::BorderlessFullscreen,
+            ..default()
+        })
         .add_plugins(DefaultPlugins)
-        .add_plugin(WorldInspectorPlugin::new())
+        // .add_plugin(WorldInspectorPlugin::new())
         .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(1.0 / METERS_PER_PIXEL))
         // .add_plugin(RapierDebugRenderPlugin::default())
         .add_plugin(GamePlugin)
@@ -35,6 +39,7 @@ fn main() {
         .insert_resource(ClearColor(Color::BLACK))
         .insert_resource(Msaa { samples: 4 })
         .add_system_to_stage(CoreStage::PreUpdate, cursor_pos)
+        .add_system(quit)
         .run();
 }
 
@@ -42,4 +47,13 @@ pub fn setup(
     mut commands: Commands,
 ) {
     commands.spawn_bundle(Camera2dBundle::default());
+}
+
+pub fn quit(
+    mut exit: EventWriter<AppExit>,
+    keyboard: Res<Input<KeyCode>>,
+) {
+    if keyboard.pressed(KeyCode::Escape) {
+        exit.send(AppExit);
+    }
 }
