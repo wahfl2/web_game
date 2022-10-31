@@ -55,13 +55,13 @@ pub fn editor_startup(
 
     let scale = 3.0;
 
-    commands.spawn_bundle(SpriteBundle {
-        transform: Transform::from_translation(Vec3::new(2276.0, 492.0, 0.0) * scale)
-            .with_scale(Vec3::splat(scale)),
-        texture: asset_server.load("level.png"),
+    // commands.spawn_bundle(SpriteBundle {
+    //     transform: Transform::from_translation(Vec3::new(2276.0, 492.0, 0.0) * scale)
+    //         .with_scale(Vec3::splat(scale)),
+    //     texture: asset_server.load("level.png"),
         
-        ..default()
-    });
+    //     ..default()
+    // });
 }
 
 pub fn editor(

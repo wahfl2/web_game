@@ -15,10 +15,10 @@ pub const METERS_PER_PIXEL: f32 = 1.0 / 1000.0;
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
-        // .add_plugin(WorldInspectorPlugin::new())
+        .add_plugin(WorldInspectorPlugin::new())
         .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(1.0 / METERS_PER_PIXEL))
         // .add_plugin(RapierDebugRenderPlugin::default())
-        .add_plugin(EditorPlugin)
+        .add_plugin(GamePlugin)
         .add_startup_system(setup)
         .add_startup_system(level_startup)
         .add_startup_system(preload_assets)

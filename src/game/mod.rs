@@ -15,6 +15,7 @@ impl Plugin for GamePlugin {
             .add_system(player_spawn)
             .insert_resource(FailedShot(false))
             .insert_resource(WebPartEntities { entities: Vec::new() })
+            .insert_resource(FramesRestartKeyHeld(0))
             .add_system(player_camera)
             .add_system(player_controls)
             .add_system_to_stage(CoreStage::PostUpdate, update_web_connections);

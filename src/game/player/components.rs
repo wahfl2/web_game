@@ -5,6 +5,7 @@ pub struct Player {
     pub body: Entity,
     pub arm_r: Entity,
     pub arm_l: Entity,
+    pub eyes: [Entity; 2],
     pub attached: Option<Attached>,
 }
 
@@ -38,3 +39,6 @@ pub struct WebPartConnection {
     pub e1: Entity,
     pub e2: Entity,
 }
+
+#[derive(Deref, DerefMut)]
+pub struct FramesRestartKeyHeld(pub u32);

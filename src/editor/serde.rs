@@ -29,7 +29,7 @@ impl SerdeShape {
         self.shape.spawn(
             commands,
             param, 
-            &Transform::from_translation(self.translation.extend(1.0))
+            &Transform::from_translation(self.translation.extend(0.0))
                 .with_rotation(self.rotation)
                 .with_scale(self.scale.extend(1.0))
         );
@@ -63,14 +63,14 @@ pub fn editor_load(
     if loaded.0 { return }
     if spawn_shape_param.level.get_single().is_err() { return }
 
-    if let Ok(contents) = serde_json::from_str::<SerdeLevel>(
+    let contents = serde_json::from_str::<SerdeLevel>(
         fs::read_to_string("./level.json").unwrap().as_str()
-    ) {
-        for shape in contents.shapes {
-            shape.spawn(&mut commands, &mut spawn_shape_param);
-        }
-        loaded.0 = true;
+    ).unwrap();
+
+    for shape in contents.shapes {
+        shape.spawn(&mut commands, &mut spawn_shape_param);
     }
+    loaded.0 = true;
 }
 
 pub fn editor_save(

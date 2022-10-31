@@ -1,7 +1,8 @@
 use bevy::{prelude::*, math::Vec3Swizzles, sprite::MaterialMesh2dBundle, input::mouse::MouseMotion, ecs::system::SystemParam};
+use bevy_inspector_egui::egui::Key;
 use bevy_rapier2d::prelude::*;
 
-use crate::{util::{Cursor, EntityQuery, PreloadedAssets, DEGREES}, editor::components::EditorShape, game::player::components::*};
+use crate::{util::{Cursor, EntityQuery, PreloadedAssets, DEGREES}, editor::components::EditorShape, game::player::{components::*, spawn::Respawn}};
 
 use super::raycast::handle_raycast;
 
@@ -18,6 +19,8 @@ pub struct PlayerControlsParam<'w, 's> {
  
     pub cursor: Res<'w, Cursor>,
     pub mouse: Res<'w, Input<MouseButton>>,
+    pub keyboard: Res<'w, Input<KeyCode>>,
+    pub frames_r_key: ResMut<'w, FramesRestartKeyHeld>,
     pub failed_shot: ResMut<'w, FailedShot>,
     pub web_connection_entities: ResMut<'w, WebPartEntities>,
  
@@ -25,6 +28,7 @@ pub struct PlayerControlsParam<'w, 's> {
  
     pub rapier_context: Res<'w, RapierContext>,
     pub preload: Res<'w, PreloadedAssets>,
+    pub respawn_player: ResMut<'w, Respawn>,
 }
 
 #[derive(SystemParam)]
@@ -170,5 +174,17 @@ pub fn player_controls(
 
         player.attached = None;
         p.commands.entity(player_entity).remove::<ShootingWeb>();
+    }
+
+    if p.keyboard.pressed(KeyCode::R) {
+        **p.frames_r_key += 1;
+        if **p.frames_r_key >= 45 {
+            **p.respawn_player = true;
+            **p.frames_r_key = 0;
+        }
+    }
+
+    if p.keyboard.just_released(KeyCode::R) {
+        **p.frames_r_key = 0;
     }
 }

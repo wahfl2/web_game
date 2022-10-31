@@ -9,13 +9,25 @@ pub struct Respawn(pub bool);
 pub fn player_spawn(
     mut commands: Commands,
 
-    kill_query: Query<Entity, Or<(With<Player>, With<WebPart>, With<WebShotVisual>)>>,
+    player_q: Query<(Entity, &Player)>,
+    kill_query: Query<Entity, Or<(With<WebPart>, With<WebPartConnection>, With<WebShotVisual>)>>,
 
     asset_server: Res<AssetServer>,
     mut respawn: ResMut<Respawn>,
 ) {
     if !**respawn { return }
     **respawn = false;
+
+    for (e, p) in player_q.iter() {
+        commands.entity(e).despawn_recursive();
+        commands.entity(p.arm_l).despawn();
+        commands.entity(p.arm_r).despawn();
+        commands.entity(p.body).despawn();
+        
+        for eye in p.eyes {
+            commands.entity(eye).despawn();
+        }
+    }
 
     for entity in kill_query.iter() {
         commands.entity(entity).despawn_recursive();
@@ -88,7 +100,7 @@ pub fn player_spawn(
         .local_anchor1(Vec2::new(-8.75, 21.25))
         .local_anchor2(Vec2::new(-3.125, 0.0));
 
-    commands.spawn_bundle(SpriteBundle {
+    let eye_r = commands.spawn_bundle(SpriteBundle {
         texture: asset_server.load("eye.png"),
         sprite: Sprite {
             custom_size: Some(Vec2::new(11.0, 11.0)),
@@ -102,13 +114,13 @@ pub fn player_spawn(
         Damping { angular_damping: 2.0, linear_damping: 0.0 },
         ImpulseJoint::new(body, joint),
         CollisionGroups::new(Group::NONE, Group::NONE),
-    ));
+    )).id();
 
     let joint = RevoluteJointBuilder::new()
         .local_anchor1(Vec2::new(8.75, 21.25))
         .local_anchor2(Vec2::new(3.125, 0.0));
 
-    commands.spawn_bundle(SpriteBundle {
+    let eye_l = commands.spawn_bundle(SpriteBundle {
         texture: asset_server.load("eye.png"),
         sprite: Sprite {
             custom_size: Some(Vec2::new(11.25, 11.25)),
@@ -122,7 +134,7 @@ pub fn player_spawn(
         Damping { angular_damping: 2.0, linear_damping: 0.0 },
         ImpulseJoint::new(body, joint),
         CollisionGroups::new(Group::NONE, Group::NONE),
-    ));
+    )).id();
 
-    commands.spawn().insert(Player { body, arm_r, arm_l, attached: None });
+    commands.spawn().insert(Player { body, arm_r, arm_l, eyes: [eye_r, eye_l], attached: None });
 }
